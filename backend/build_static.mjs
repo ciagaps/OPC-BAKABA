@@ -37,7 +37,7 @@ window.fetch=function(u,o){var k=String(u).split("?")[0];
     return Promise.resolve({ok:true,status:200,json:function(){return Promise.resolve(d)},text:function(){return Promise.resolve(typeof d==="string"?d:JSON.stringify(d))}});}
   return of?of(u,o):Promise.reject(new Error("offline"));};
 })();</script>
-<style>#btnRefresh{display:none!important}</style>
+<style>#btnRefresh,#ftRefresh{display:none!important}</style>
 `;
   html = html.replace('</head>', shim + '</head>');
 
