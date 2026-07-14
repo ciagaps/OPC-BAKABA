@@ -3,7 +3,7 @@ name: Atualizar painel OPC
 # Atualiza o painel automaticamente e publica no GitHub Pages.
 on:
   schedule:
-    - cron: '*/30 * * * *'   # a cada 30 min (horário UTC; melhor esforço do GitHub)
+    - cron: '*/10 * * * *'   # a cada 10 min (melhor esforço do GitHub; pode atrasar sob carga)
   workflow_dispatch:          # botão "Run workflow" (atualização manual sob comando)
   push:
     branches: [ main ]        # republica quando você atualiza o código
