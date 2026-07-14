@@ -1,0 +1,29 @@
+# Config opcional para deploy no Render (alternativa ao Railway).
+# NÃO use o plano Free: ele hiberna e não tem disco persistente (perde o token).
+services:
+  - type: web
+    name: opc-bakaba
+    runtime: node
+    plan: starter            # precisa de plano pago p/ disco persistente + não hibernar
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    disk:
+      name: estado
+      mountPath: /data       # STATE_DIR aponta para cá
+      sizeGB: 1
+    envVars:
+      - key: MOCK
+        value: "false"
+      - key: STATE_DIR
+        value: /data
+      - key: JD_ORG_ID
+        value: "409551"
+      - key: JD_SCOPES
+        value: ag1 ag2 ag3 eq1 eq2 org1 org2 offline_access
+      - key: POLL_MINUTOS
+        value: "10"
+      # Defina no painel do Render (secretos — não versione):
+      #   JD_CLIENT_ID, JD_CLIENT_SECRET, JD_REFRESH_TOKEN,
+      #   PUBLIC_URL (https://opc-bakaba.onrender.com),
+      #   JD_REDIRECT_URI (https://opc-bakaba.onrender.com/oauth/callback)

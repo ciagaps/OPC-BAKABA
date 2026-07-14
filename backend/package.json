@@ -1,0 +1,13 @@
+{
+  "name": "opc-dashboard-bakaba",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dashboard ao vivo da colheita (Fazenda Bakaba) alimentado pelo John Deere Operations Center",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

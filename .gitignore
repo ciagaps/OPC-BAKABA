@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+*.log
+
+# SEGREDOS — nunca commitar
+backend/.env
+backend/data/tokens.json
+
+# Estado mutável (regenerado a cada poll)
+backend/data/snapshot.json
+
+# Saída gerada (o GitHub Actions reconstrói a cada execução)
+backend/public/
+
+# Backups locais
+backend/data/*.bak
+
+# Planilhas-fonte do fechamento: NÃO são usadas em runtime (o mapper lê os .json).
+# Ficam só na sua máquina para regenerar os JSONs — fora do repositório público.
+backend/data/*.xlsx
+backend/data/*.xlsm

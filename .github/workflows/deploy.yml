@@ -1,0 +1,60 @@
+name: Atualizar painel OPC
+
+# Atualiza o painel automaticamente e publica no GitHub Pages.
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # a cada 30 min (horário UTC; melhor esforço do GitHub)
+  workflow_dispatch:          # botão "Run workflow" (atualização manual sob comando)
+  push:
+    branches: [ main ]        # republica quando você atualiza o código
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Não deixa duas publicações rodarem ao mesmo tempo.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Coletar dados do Operations Center
+        working-directory: backend
+        env:
+          MOCK: 'false'
+          STATE_DIR: ${{ runner.temp }}/state
+          JD_CLIENT_ID: ${{ secrets.JD_CLIENT_ID }}
+          JD_CLIENT_SECRET: ${{ secrets.JD_CLIENT_SECRET }}
+          JD_REFRESH_TOKEN: ${{ secrets.JD_REFRESH_TOKEN }}
+          JD_ORG_ID: '409551'
+        run: |
+          mkdir -p "$STATE_DIR"
+          node poll_once.mjs
+
+      - name: Gerar relatório HTML autocontido
+        working-directory: backend
+        env:
+          STATE_DIR: ${{ runner.temp }}/state
+        run: node build_static.mjs ./public/index.html
+
+      - name: Empacotar para o Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: backend/public
+
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
