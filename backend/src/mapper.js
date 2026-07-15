@@ -331,6 +331,21 @@ function harvestValues(op) {
 // área plantada de uma operação de plantio (op._measurement = medição de plantio com `area`)
 const seedingArea = op => { const a = op?._measurement?.area; return (a && typeof a.value === 'number') ? a.value : 0; };
 
+// produtividade OFICIAL (col J do fechamento) por talhão, para um ano|cultura — usada como
+// "safra anterior" quando existe fechamento (em vez do sensor do OPC, que superestima).
+// Cache: chave canônica do talhão → produtiv. Null se não há fechamento para aquele ano|cultura.
+const _fechProdCache = {};
+function fechamentoProd(yc) {
+  if (yc in _fechProdCache) return _fechProdCache[yc];
+  const file = FECHAMENTOS[yc];
+  if (!file) return (_fechProdCache[yc] = null);
+  const fz = loadFechamento(file);
+  if (!fz || !fz.talhoes) return (_fechProdCache[yc] = null);
+  const map = {};
+  for (const t of fz.talhoes) if (t.produtiv > 0) for (const k of canonicalKeys(t.talhao)) map[k] = t.produtiv;
+  return (_fechProdCache[yc] = map);
+}
+
 // normaliza nome de variedade (maiúsculas, espaços) p/ reduzir duplicados (Olimpo/OLIMPO)
 function normVar(n) {
   if (!n || n === '---') return null;
@@ -463,7 +478,11 @@ export function buildSnapshotFromJD(perField, orgId) {
       for (const o of hOps) { const hv = harvestValues(o); if (!best || (hv.area || 0) > (bestHv?.area || 0)) { best = o; bestHv = hv; } }
       const colhido = !!best;
       const produtiv = bestHv?.produtiv ?? null;
-      const prod25 = prodAno(nome, crop, anterior);
+      // safra anterior: fechamento oficial do ano anterior quando existir; senão sensor do OPC
+      const antFech = fechamentoProd(anterior + '|' + crop);
+      const prod25 = antFech
+        ? (canonicalKeys(nome).map(k => antFech[k]).find(v => v != null) ?? null)
+        : prodAno(nome, crop, anterior);
       const dif = (produtiv != null && prod25 != null) ? Number((produtiv - prod25).toFixed(1)) : null;
       const variedade = bestHv?.variedades[0] || '—';
       const umidade = bestHv?.umidade ?? null;
@@ -524,6 +543,18 @@ export function buildSnapshotFromJD(perField, orgId) {
 
     datasets[yc] = { resumo: resumoColheita(talhoes), talhoes, evolucao, maquinas: machineListYC(perField, crop, yr), safraAnterior: anterior, scaleMax: SCALE_BY_CROP[crop] || 110 };
     if (FECHAMENTOS[yc]) enrichFromFechamento(datasets[yc], FECHAMENTOS[yc], yc === '2026|MUNG_BEAN'); // feijão: só frota (área/progresso vêm da API ao vivo)
+    // KPI "safra anterior": se o ano anterior tem fechamento oficial e este dataset NÃO é fechamento
+    // (cultura ao vivo, ex.: milho 2026), usa a MÉDIA OFICIAL (total) do fechamento anterior — não o
+    // sensor nem a col J por talhão, que superestimam. Detalhe por talhão (comparativo) segue col J.
+    if (!FECHAMENTOS[yc]) {
+      const antFile = FECHAMENTOS[anterior + '|' + crop];
+      const antMedia = antFile ? loadFechamento(antFile)?.oficial?.media : null;
+      if (antMedia != null) {
+        const R = datasets[yc].resumo;
+        R.produtividadeMediaAnterior = Number(antMedia.toFixed(1));
+        R.variacaoSafra = R.produtividadeMedia != null ? Number((R.produtividadeMedia - antMedia).toFixed(1)) : null;
+      }
+    }
     (anosMap[yr] = anosMap[yr] || []).push({ key: yc, crop, label: cropLabel(crop), talhoes: talhoes.filter(t => t.status !== 'Pendente').length, area: datasets[yc].resumo.areaColhida });
   }
 

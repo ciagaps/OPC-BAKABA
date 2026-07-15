@@ -509,7 +509,7 @@ function renderHero(){const r=ACTIVE.resumo;
   // Sem safra anterior nos dados reais → reaproveita os 2 KPIs
   const temAnterior=r.produtividadeMediaAnterior!=null;
   if(temAnterior){
-    setLbl('k-prod-ant',fmt(r.produtividadeMediaAnterior)); setLbl('k-prod-ant-l','Produtividade safra anterior');
+    setLbl('k-prod-ant',fmt(r.produtividadeMediaAnterior)); setLbl('k-prod-ant-u','sc/ha'); setLbl('k-prod-ant-l','Produtividade safra anterior');
     const kv=document.getElementById('k-var');kv.textContent=(r.variacaoSafra>=0?'+':'')+fmt(r.variacaoSafra);
     document.getElementById('k-var-box').className='kpi '+(r.variacaoSafra>=0?'good':'bad'); setLbl('k-var-u','sc/ha'); setLbl('k-var-l','Variação vs safra anterior');
   }else{
