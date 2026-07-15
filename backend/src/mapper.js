@@ -223,10 +223,13 @@ function canonicalKeys(name) { // chave completa + cada componente (mesclados)
 }
 
 // enriquece um dataset com os dados conferidos do fechamento (produtividade col J, ano anterior col Q, máquinas, evolução)
-function enrichFromFechamento(ds, file) {
+function enrichFromFechamento(ds, file, fleetOnly = false) {
   if (!ds) return;
   const fz = loadFechamento(file);
   if (!fz || !fz.talhoes) return;
+  // fleetOnly (ex.: feijão em andamento): NÃO sobrescreve área/%/talhões (vêm da API ao vivo);
+  // apenas acrescenta a frota (operador, l/h, ha/h) e o ranking de operadores da exportação.
+  if (!fleetOnly) {
   const byKey = {};
   for (const t of fz.talhoes) for (const k of canonicalKeys(t.talhao)) byKey[k] = t;
   for (const t of ds.talhoes) {
@@ -279,6 +282,9 @@ function enrichFromFechamento(ds, file) {
     if (o.area != null) { R.areaColhida = Number(o.area.toFixed(1)); R.areaTotal = Number(o.area.toFixed(1)); R.areaRestante = 0; R.percentColhido = 100; R.percentRestante = 0; }
   }
   ds.fonte = 'FECHAMENTO+OPC';
+  } else {
+    ds.fonte = 'JOHN_DEERE_OPC'; // feijão: área/progresso ao vivo; só a frota vem da exportação
+  }
   if (fz.operadores && fz.operadores.length) ds.operadores = fz.operadores; // ranking de ha por operador (quando a planilha tem)
   // máquinas: a LISTA do fechamento é a oficial (ha/l-h/ha-h reais); enriquece com operador/vin do OPC
   if (fz.maquinas && fz.maquinas.length) {
@@ -290,8 +296,8 @@ function enrichFromFechamento(ds, file) {
         ha: Number(fm.haTotal.toFixed(1)), lh: fm.lh, haHr: fm.haHr, haOpc: o.ha ?? null, status: 'concluido' };
     }).sort((a, b) => (b.ha || 0) - (a.ha || 0));
   }
-  // evolução diária real (com meta)
-  if (fz.evolucao && fz.evolucao.length) {
+  // evolução diária real (com meta) — só no modo fechamento; no fleetOnly mantém a evolução ao vivo
+  if (!fleetOnly && fz.evolucao && fz.evolucao.length) {
     ds.evolucao = fz.evolucao.map(e => ({ d: e.data.slice(8, 10) + '/' + e.data.slice(5, 7), ha: e.ha, meta: e.meta }));
   }
 }
@@ -321,6 +327,9 @@ function harvestValues(op) {
     variedades: (m?.varietyTotals || []).map(v => normVar(v.name)).filter(Boolean),
   };
 }
+
+// área plantada de uma operação de plantio (op._measurement = medição de plantio com `area`)
+const seedingArea = op => { const a = op?._measurement?.area; return (a && typeof a.value === 'number') ? a.value : 0; };
 
 // normaliza nome de variedade (maiúsculas, espaços) p/ reduzir duplicados (Olimpo/OLIMPO)
 function normVar(n) {
@@ -458,9 +467,19 @@ export function buildSnapshotFromJD(perField, orgId) {
       const dif = (produtiv != null && prod25 != null) ? Number((produtiv - prod25).toFixed(1)) : null;
       const variedade = bestHv?.variedades[0] || '—';
       const umidade = bestHv?.umidade ?? null;
-      const status = colhido ? (best.endDate ? 'Finalizado' : 'Andamento') : 'Pendente';
       const inicio = best?.startDate ? best.startDate.slice(0, 10) : null;
       const fim = best?.endDate ? best.endDate.slice(0, 10) : null;
+
+      // Área PLANTADA medida (soma dos plantios). Quando existe, o total do talhão passa
+      // a ser a área plantada e o colhido a área medida da colheita — assim % e "falta colher"
+      // ficam reais (crucial p/ culturas em andamento, ex.: feijão). Sem plantio medido,
+      // mantém o comportamento antigo (área do shapefile, colhido = tudo ou nada).
+      const plantedField = sOps.reduce((s, o) => s + seedingArea(o), 0);
+      const harvestField = bestHv?.area ?? 0;
+      const usePlanted = plantedField > 0;
+      const status = usePlanted
+        ? (harvestField <= 0 ? 'Pendente' : (best?.endDate ? 'Finalizado' : 'Andamento'))
+        : (colhido ? (best.endDate ? 'Finalizado' : 'Andamento') : 'Pendente');
 
       // campo mesclado no OPC (BKB051_052_053_054) → espalha nos polígonos componentes do shapefile
       let comps;
@@ -471,15 +490,24 @@ export function buildSnapshotFromJD(perField, orgId) {
       const mesclado = comps.length > 1 ? nome : null;
 
       return comps.map(c => {
-        const haC = ref[c]?.ha ?? (comps.length === 1 ? (bestHv?.area ?? null) : null);
+        const frac = mesclado ? ((ref[c]?.ha || 0) / somaHa) : 1; // fração do componente (por área do shapefile)
+        const shpHa = ref[c]?.ha ?? (comps.length === 1 ? (bestHv?.area ?? null) : null);
+        let ha_talhao, ha_colhido, pct;
+        if (usePlanted) {
+          ha_talhao = Number((plantedField * frac).toFixed(1));
+          ha_colhido = Number((harvestField * frac).toFixed(1));
+          pct = ha_talhao ? Number(Math.min(1, ha_colhido / ha_talhao).toFixed(3)) : 0;
+        } else {
+          ha_talhao = shpHa != null ? Number(shpHa.toFixed(1)) : null;
+          ha_colhido = colhido ? (shpHa ?? 0) : 0;
+          pct = colhido ? 1 : 0;
+        }
         return {
           talhao: c, farm: ref[c]?.farm || 'Bakaba',
           variedade,
-          ha_talhao: haC != null ? Number(haC.toFixed(1)) : null,
-          ha_colhido: colhido ? (haC ?? 0) : 0,
-          pct: colhido ? 1 : 0,
+          ha_talhao, ha_colhido, pct,
           produtiv, prod25, dif, umidade,
-          massaMolhada: mesclado ? Math.round(massaTot * ((ref[c]?.ha || 0) / somaHa)) : massaTot,
+          massaMolhada: mesclado ? Math.round(massaTot * frac) : massaTot,
           status, inicio, fim, mesclado,
         };
       });
@@ -495,7 +523,7 @@ export function buildSnapshotFromJD(perField, orgId) {
     const evolucao = Object.keys(evolMap).sort().map(d => ({ d: d.slice(8, 10) + '/' + d.slice(5, 7), ha: Number(evolMap[d].toFixed(1)), meta: null }));
 
     datasets[yc] = { resumo: resumoColheita(talhoes), talhoes, evolucao, maquinas: machineListYC(perField, crop, yr), safraAnterior: anterior, scaleMax: SCALE_BY_CROP[crop] || 110 };
-    if (FECHAMENTOS[yc]) enrichFromFechamento(datasets[yc], FECHAMENTOS[yc]); // dados oficiais do fechamento
+    if (FECHAMENTOS[yc]) enrichFromFechamento(datasets[yc], FECHAMENTOS[yc], yc === '2026|MUNG_BEAN'); // feijão: só frota (área/progresso vêm da API ao vivo)
     (anosMap[yr] = anosMap[yr] || []).push({ key: yc, crop, label: cropLabel(crop), talhoes: talhoes.filter(t => t.status !== 'Pendente').length, area: datasets[yc].resumo.areaColhida });
   }
 

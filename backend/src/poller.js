@@ -3,7 +3,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { config } from './config.js';
 import { isAuthorized } from './jdAuth.js';
-import { resolveOrgId, listAllFields, fieldOperationsForField, harvestMeasurement, mapLimit } from './jdClient.js';
+import { resolveOrgId, listAllFields, fieldOperationsForField, harvestMeasurement, seedingMeasurement, mapLimit } from './jdClient.js';
 import { buildMockSnapshot, buildSnapshotFromJD } from './mapper.js';
 
 const snapshotPath = join(config.stateDir, 'snapshot.json');
@@ -35,6 +35,22 @@ async function pollReal() {
   console.log(`[poll] ${harvests.length} colheitas. Buscando medições...`);
   await mapLimit(harvests, 6, async (op) => {
     op._measurement = await harvestMeasurement(op).catch(() => null);
+  });
+
+  // medições dos PLANTIOS → área plantada (para % colhido / falta colher reais).
+  // Só onde há colheita da mesma cultura/ano (evita buscar plantio de culturas não colhidas).
+  const anoOp = op => { const d = op.endDate || op.startDate; return d ? d.slice(0, 4) : null; };
+  const colhidoYC = new Set();
+  for (const pf of perField)
+    for (const op of pf.ops)
+      if (op.fieldOperationType === 'harvest' && op.cropName && anoOp(op)) colhidoYC.add(anoOp(op) + '|' + op.cropName);
+  const seedings = [];
+  for (const pf of perField)
+    for (const op of pf.ops)
+      if (op.fieldOperationType === 'seeding' && op.cropName && colhidoYC.has(anoOp(op) + '|' + op.cropName)) seedings.push(op);
+  console.log(`[poll] ${seedings.length} plantios (culturas colhidas). Buscando área plantada...`);
+  await mapLimit(seedings, 6, async (op) => {
+    op._measurement = await seedingMeasurement(op).catch(() => null);
   });
 
   console.log('[poll] montando snapshot...');

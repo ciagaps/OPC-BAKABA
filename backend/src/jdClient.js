@@ -80,4 +80,14 @@ export async function harvestMeasurement(op) {
   return (data.values || []).find(v => v.measurementName === 'HarvestYieldResult') || null;
 }
 
+// Medições de uma operação de PLANTIO: devolve a primeira medição que traz área
+// (ex.: SeedingVarietiesResult / SeedingRateResult) → usamos o campo `area` como área plantada.
+export async function seedingMeasurement(op) {
+  const link = (op.links || []).find(l => l.rel === 'measurementTypes');
+  if (!link) return null;
+  const data = await jdGet(link.uri).catch(() => null);
+  if (!data) return null;
+  return (data.values || []).find(v => v.area && typeof v.area.value === 'number') || null;
+}
+
 export { jdGet, getAllPages };
