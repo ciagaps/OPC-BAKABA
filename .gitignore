@@ -2,6 +2,10 @@
 node_modules/
 *.log
 
+# Python (o parser das exportações roda só na máquina do Juliano)
+__pycache__/
+*.pyc
+
 # SEGREDOS — nunca commitar
 backend/.env
 backend/data/tokens.json
