@@ -469,6 +469,12 @@ export function buildSnapshotFromJD(perField, orgId) {
   for (const yc of yearCropSet) {
     const [yr, crop] = yc.split('|');
     const anterior = String(Number(yr) - 1);
+    // Esta safra tem plantio registrado no OPC? Se sim, o PLANTIO manda na área total
+    // (espelha o "Analisador de Trabalho > Semeadura"): talhão sem plantio registrado não
+    // entra na área total, mesmo que tenha sido colhido (ex.: BKB034 no milho 2026).
+    // Se a safra não tem plantio nenhum (anos antigos), mantém o modelo antigo (shapefile).
+    const temPlantio = perField.some(({ ops }) => ops.some(o =>
+      o.fieldOperationType === 'seeding' && o.cropName === crop && harvestYear(o) === yr && seedingArea(o) > 0));
     const talhoes = perField.flatMap(({ field, ops }) => {
       const nome = field.name;
       const hOps = ops.filter(o => o.fieldOperationType === 'harvest' && o.cropName === crop && harvestYear(o) === yr);
@@ -489,13 +495,13 @@ export function buildSnapshotFromJD(perField, orgId) {
       const inicio = best?.startDate ? best.startDate.slice(0, 10) : null;
       const fim = best?.endDate ? best.endDate.slice(0, 10) : null;
 
-      // Área PLANTADA medida (soma dos plantios). Quando existe, o total do talhão passa
-      // a ser a área plantada e o colhido a área medida da colheita — assim % e "falta colher"
-      // ficam reais (crucial p/ culturas em andamento, ex.: feijão). Sem plantio medido,
-      // mantém o comportamento antigo (área do shapefile, colhido = tudo ou nada).
+      // Safra com plantio registrado: o PLANTIO define a área total do talhão e a COLHEITA
+      // medida define o colhido — assim % e "falta colher" ficam reais (culturas em andamento).
+      // Talhão colhido mas SEM plantio registrado fica com total 0 (não infla a área total,
+      // igual ao relatório de Semeadura do OPC), mas a área colhida dele continua contando.
       const plantedField = sOps.reduce((s, o) => s + seedingArea(o), 0);
       const harvestField = bestHv?.area ?? 0;
-      const usePlanted = plantedField > 0;
+      const usePlanted = temPlantio;
       const status = usePlanted
         ? (harvestField <= 0 ? 'Pendente' : (best?.endDate ? 'Finalizado' : 'Andamento'))
         : (colhido ? (best.endDate ? 'Finalizado' : 'Andamento') : 'Pendente');
@@ -515,7 +521,8 @@ export function buildSnapshotFromJD(perField, orgId) {
         if (usePlanted) {
           ha_talhao = Number((plantedField * frac).toFixed(1));
           ha_colhido = Number((harvestField * frac).toFixed(1));
-          pct = ha_talhao ? Number(Math.min(1, ha_colhido / ha_talhao).toFixed(3)) : 0;
+          // sem plantio registrado (total 0) mas colhido → 100% daquele talhão
+          pct = ha_talhao ? Number(Math.min(1, ha_colhido / ha_talhao).toFixed(3)) : (ha_colhido > 0 ? 1 : 0);
         } else {
           ha_talhao = shpHa != null ? Number(shpHa.toFixed(1)) : null;
           ha_colhido = colhido ? (shpHa ?? 0) : 0;
