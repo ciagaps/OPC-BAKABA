@@ -657,15 +657,19 @@ function filterTable(){const q=document.getElementById('tSearch').value.toLowerC
 
 // ---- FROTA ----
 function renderMaq(){const m=ACTIVE.maquinas||[];
-  document.getElementById('maqGrid').innerHTML=[...m].slice(0,24).map((d,i)=>`
+  const linha=(rot,val)=>`<div class="maq-stat"><span>${rot}</span><b>${val}</b></div>`;
+  document.getElementById('maqGrid').innerHTML=[...m].slice(0,32).map((d,i)=>`
     <div class="maq-card ${i===0?'gold':''}"><div class="maq-name">🚜 ${maqName(d)}${i===0?' 🏆':''}</div>
-      <div class="maq-badge">${(d.operadores&&d.operadores.length>1)?d.operadores.length+' operadores':(d.op||'—')}</div>
-      <div class="maq-stat"><span>Operador</span><b>${d.op||'—'}</b></div>
-      <div class="maq-stat"><span>Operações</span><b>${d.ops!=null?d.ops:'—'}</b></div>
-      <div class="maq-stat"><span>Área colhida</span><b>${fmt(d.ha)} ha</b></div>
-      ${d.haHr!=null?`<div class="maq-stat"><span>Rendimento</span><b>${fmt(d.haHr)} ha/h</b></div>`:''}
-      ${d.lh!=null?`<div class="maq-stat"><span>Consumo</span><b>${fmt(d.lh)} l/h</b></div>`:''}
-      ${d.vin?`<div class="maq-stat"><span>VIN</span><b style="font-size:10px">${d.vin}</b></div>`:''}</div>`).join('');}
+      <div class="maq-badge">${d.op||((d.operadores&&d.operadores.length>1)?d.operadores.length+' operadores':'—')}</div>
+      ${linha('Operador', d.op||'—')}
+      ${linha('Área colhida', fmt(d.ha)+' ha')}
+      ${linha('Rendimento', d.haHr!=null?fmt(d.haHr)+' ha/h':'—')}
+      ${linha('Umidade', d.umidade!=null?fmt(d.umidade)+' %':'—')}
+      ${linha('Consumo', d.lha!=null?fmt(d.lha)+' l/ha':'—')}
+      ${linha('Consumo', d.lh!=null?fmt(d.lh)+' l/h':'—')}
+      ${linha('Velocidade', d.velocidade!=null?fmt(d.velocidade)+' km/h':'—')}
+      ${linha('VIN', `<span style="font-size:10px">${d.vin||'—'}</span>`)}
+    </div>`).join('');}
 
 // ---- OPERAÇÕES DE CAMPO ----
 let opTipoFiltro='all';

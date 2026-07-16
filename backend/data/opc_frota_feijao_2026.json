@@ -1,0 +1,261 @@
+{
+ "culturas": [
+  "Feijões Moyashi"
+ ],
+ "maquinas": [
+  {
+   "maq": "CA23",
+   "apelido": "CA S770 23",
+   "vin": "1CQS770APP0150350",
+   "operador": "Jose bento",
+   "operadores": [
+    "Jose bento"
+   ],
+   "ops": 15,
+   "talhoes": 15,
+   "ha": 607.0,
+   "haHr": 7.2,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 6.5,
+   "lh": 47.1,
+   "velocidade": 5.6,
+   "horas": 83.7,
+   "combustivel": 3940.7
+  },
+  {
+   "maq": "CA21",
+   "apelido": "CA S770 21",
+   "vin": "1CQS770ALP0150227",
+   "operador": "Igor Abreu",
+   "operadores": [
+    "Igor Abreu"
+   ],
+   "ops": 19,
+   "talhoes": 14,
+   "ha": 554.7,
+   "haHr": 6.6,
+   "umidade": 15.0,
+   "umidCobertura": 100,
+   "lha": 6.9,
+   "lh": 45.7,
+   "velocidade": 5.7,
+   "horas": 84.1,
+   "combustivel": 3842.8
+  },
+  {
+   "maq": "CA22",
+   "apelido": "CA S770 22",
+   "vin": "1CQS770APP0150302",
+   "operador": "Cleber Nascimento",
+   "operadores": [
+    "Cleber Nascimento"
+   ],
+   "ops": 15,
+   "talhoes": 15,
+   "ha": 552.2,
+   "haHr": 6.7,
+   "umidade": 7.6,
+   "umidCobertura": 83,
+   "lha": 6.5,
+   "lh": 43.2,
+   "velocidade": 5.1,
+   "horas": 83.0,
+   "combustivel": 3587.3
+  },
+  {
+   "maq": "CA24",
+   "apelido": "CA S770 24",
+   "vin": "1CQS770AVP0150306",
+   "operador": "Willian marques",
+   "operadores": [
+    "Willian marques",
+    "Elino",
+    "Maciel-sales"
+   ],
+   "ops": 18,
+   "talhoes": 15,
+   "ha": 479.6,
+   "haHr": 6.6,
+   "umidade": 5.8,
+   "umidCobertura": 100,
+   "lha": 6.4,
+   "lh": 42.6,
+   "velocidade": 5.7,
+   "horas": 72.6,
+   "combustivel": 3091.1
+  },
+  {
+   "maq": "CA17",
+   "apelido": "CA S770 17",
+   "vin": "1CQS770AAP0150341",
+   "operador": "Maciel-sales",
+   "operadores": [
+    "Maciel-sales",
+    "Maciel Sales",
+    "Alexandre",
+    "Operador Desconhecido"
+   ],
+   "ops": 17,
+   "talhoes": 14,
+   "ha": 436.9,
+   "haHr": 6.4,
+   "umidade": 5.9,
+   "umidCobertura": 95,
+   "lha": 6.8,
+   "lh": 43.7,
+   "velocidade": 5.6,
+   "horas": 68.3,
+   "combustivel": 2982.5
+  },
+  {
+   "maq": "CA25",
+   "apelido": "CA S770 25",
+   "vin": "1CQS770AVP0150340",
+   "operador": "Genilson",
+   "operadores": [
+    "Genilson",
+    "Elino"
+   ],
+   "ops": 21,
+   "talhoes": 15,
+   "ha": 351.8,
+   "haHr": 6.9,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 6.2,
+   "lh": 42.5,
+   "velocidade": 6.0,
+   "horas": 51.2,
+   "combustivel": 2176.6
+  },
+  {
+   "maq": "CA27",
+   "apelido": "CA S760 27",
+   "vin": "1CQS760ACP0150209",
+   "operador": "Franklin santos",
+   "operadores": [
+    "Franklin santos"
+   ],
+   "ops": 12,
+   "talhoes": 12,
+   "ha": 295.2,
+   "haHr": 5.5,
+   "umidade": 10.4,
+   "umidCobertura": 100,
+   "lha": 7.9,
+   "lh": 43.5,
+   "velocidade": 5.6,
+   "horas": 53.7,
+   "combustivel": 2336.9
+  },
+  {
+   "maq": "CA28",
+   "apelido": "CA S770 28",
+   "vin": "1CQS770AEP0150344",
+   "operador": "Renato",
+   "operadores": [
+    "Renato"
+   ],
+   "ops": 11,
+   "talhoes": 11,
+   "ha": 253.8,
+   "haHr": 5.8,
+   "umidade": 8.1,
+   "umidCobertura": 100,
+   "lha": 7.3,
+   "lh": 42.5,
+   "velocidade": 5.0,
+   "horas": 43.8,
+   "combustivel": 1864.4
+  }
+ ],
+ "operadores": [
+  {
+   "operador": "Jose bento",
+   "ha": 607.0,
+   "talhoes": 15,
+   "haHr": 7.2,
+   "lh": 47.1
+  },
+  {
+   "operador": "Igor Abreu",
+   "ha": 554.7,
+   "talhoes": 14,
+   "haHr": 6.6,
+   "lh": 45.7
+  },
+  {
+   "operador": "Cleber Nascimento",
+   "ha": 552.2,
+   "talhoes": 15,
+   "haHr": 6.7,
+   "lh": 43.2
+  },
+  {
+   "operador": "Willian marques",
+   "ha": 358.8,
+   "talhoes": 12,
+   "haHr": 6.4,
+   "lh": 42.3
+  },
+  {
+   "operador": "Genilson",
+   "ha": 349.6,
+   "talhoes": 15,
+   "haHr": 6.9,
+   "lh": 42.5
+  },
+  {
+   "operador": "Franklin santos",
+   "ha": 295.2,
+   "talhoes": 12,
+   "haHr": 5.5,
+   "lh": 43.5
+  },
+  {
+   "operador": "Renato",
+   "ha": 253.8,
+   "talhoes": 11,
+   "haHr": 5.8,
+   "lh": 42.5
+  },
+  {
+   "operador": "Maciel-sales",
+   "ha": 225.9,
+   "talhoes": 10,
+   "haHr": 6.4,
+   "lh": 43.2
+  },
+  {
+   "operador": "Maciel Sales",
+   "ha": 145.2,
+   "talhoes": 4,
+   "haHr": 6.5,
+   "lh": 43.3
+  },
+  {
+   "operador": "Elino",
+   "ha": 116.2,
+   "talhoes": 5,
+   "haHr": 7.3,
+   "lh": 43.4
+  },
+  {
+   "operador": "Alexandre",
+   "ha": 36.6,
+   "talhoes": 2,
+   "haHr": 6.0,
+   "lh": 44.2
+  },
+  {
+   "operador": "Operador Desconhecido",
+   "ha": 36.0,
+   "talhoes": 1,
+   "haHr": 6.2,
+   "lh": 46.9
+  }
+ ],
+ "totalHa": 3531.2,
+ "semMaquina": {}
+}

@@ -1,0 +1,924 @@
+{
+ "culturas": [
+  "Soja"
+ ],
+ "maquinas": [
+  {
+   "maq": "CA09",
+   "apelido": "CA S790 09",
+   "vin": "1CQS790ATN0145222",
+   "operador": "Joelson Santos",
+   "operadores": [
+    "Joelson Santos"
+   ],
+   "ops": 54,
+   "talhoes": 54,
+   "ha": 1071.5,
+   "haHr": 7.5,
+   "umidade": 13.9,
+   "umidCobertura": 100,
+   "lha": 9.7,
+   "lh": 72.8,
+   "velocidade": 6.1,
+   "horas": 143.0,
+   "combustivel": 10411.9
+  },
+  {
+   "maq": "CA27",
+   "apelido": "CA S760 27",
+   "vin": "1CQS760ACP0150209",
+   "operador": "Patric",
+   "operadores": [
+    "Patric"
+   ],
+   "ops": 50,
+   "talhoes": 49,
+   "ha": 1018.8,
+   "haHr": 6.9,
+   "umidade": 16.6,
+   "umidCobertura": 100,
+   "lha": 8.2,
+   "lh": 56.2,
+   "velocidade": 6.1,
+   "horas": 148.4,
+   "combustivel": 8346.2
+  },
+  {
+   "maq": "CA23",
+   "apelido": "CA S770 23",
+   "vin": "1CQS770APP0150350",
+   "operador": "Jose bento",
+   "operadores": [
+    "Jose bento",
+    "Jose Bento",
+    "Paulo Andre",
+    "Juliano Duarte",
+    "Operador Desconhecido"
+   ],
+   "ops": 59,
+   "talhoes": 53,
+   "ha": 986.4,
+   "haHr": 7.1,
+   "umidade": 16.9,
+   "umidCobertura": 100,
+   "lha": 8.0,
+   "lh": 57.0,
+   "velocidade": 6.5,
+   "horas": 138.9,
+   "combustivel": 7919.4
+  },
+  {
+   "maq": "CA29",
+   "apelido": "CA X9 29",
+   "vin": "1H0X910XHR0830231",
+   "operador": "John Lenno Santos",
+   "operadores": [
+    "John Lenno Santos"
+   ],
+   "ops": 21,
+   "talhoes": 21,
+   "ha": 964.5,
+   "haHr": 8.2,
+   "umidade": 17.3,
+   "umidCobertura": 100,
+   "lha": 8.4,
+   "lh": 69.4,
+   "velocidade": 5.9,
+   "horas": 117.3,
+   "combustivel": 8134.4
+  },
+  {
+   "maq": "CA02",
+   "apelido": "CA S790 02",
+   "vin": "1CQS790ACN0145212",
+   "operador": "Cleomarques Ribeiro",
+   "operadores": [
+    "Cleomarques Ribeiro"
+   ],
+   "ops": 55,
+   "talhoes": 54,
+   "ha": 957.0,
+   "haHr": 7.1,
+   "umidade": 14.6,
+   "umidCobertura": 100,
+   "lha": 9.5,
+   "lh": 67.6,
+   "velocidade": 5.7,
+   "horas": 134.1,
+   "combustivel": 9062.8
+  },
+  {
+   "maq": "CA08",
+   "apelido": "CA S790 08",
+   "vin": "1CQS790ATN0145219",
+   "operador": "Mateus Reis",
+   "operadores": [
+    "Mateus Reis"
+   ],
+   "ops": 54,
+   "talhoes": 53,
+   "ha": 947.0,
+   "haHr": 7.4,
+   "umidade": 10.7,
+   "umidCobertura": 30,
+   "lha": 9.5,
+   "lh": 70.7,
+   "velocidade": 6.1,
+   "horas": 127.8,
+   "combustivel": 9034.8
+  },
+  {
+   "maq": "CA04",
+   "apelido": "CA S790 04",
+   "vin": "1CQS790ACN0145221",
+   "operador": "Gabriel silva",
+   "operadores": [
+    "Gabriel silva",
+    "Gabriel Silva",
+    "Sidiney Batista",
+    "Vitor"
+   ],
+   "ops": 54,
+   "talhoes": 53,
+   "ha": 876.3,
+   "haHr": 7.1,
+   "umidade": 14.4,
+   "umidCobertura": 100,
+   "lha": 9.8,
+   "lh": 69.9,
+   "velocidade": 5.6,
+   "horas": 123.3,
+   "combustivel": 8612.9
+  },
+  {
+   "maq": "CA21",
+   "apelido": "CA S770 21",
+   "vin": "1CQS770ALP0150227",
+   "operador": "Edgar Belo",
+   "operadores": [
+    "Edgar Belo"
+   ],
+   "ops": 45,
+   "talhoes": 42,
+   "ha": 869.5,
+   "haHr": 8.2,
+   "umidade": 15.1,
+   "umidCobertura": 100,
+   "lha": 8.1,
+   "lh": 66.1,
+   "velocidade": 7.0,
+   "horas": 106.5,
+   "combustivel": 7047.7
+  },
+  {
+   "maq": "CA10",
+   "apelido": "CA S790 10",
+   "vin": "1CQS790AVN0145227",
+   "operador": "Jose francisco",
+   "operadores": [
+    "Jose francisco",
+    "Anazilso Carvalho",
+    "John Lenno Santos",
+    "Juliano Duarte",
+    "Jocean de caldas",
+    "Juscelino Martins"
+   ],
+   "ops": 62,
+   "talhoes": 55,
+   "ha": 867.1,
+   "haHr": 6.5,
+   "umidade": 18.4,
+   "umidCobertura": 100,
+   "lha": 10.1,
+   "lh": 66.2,
+   "velocidade": 5.3,
+   "horas": 132.5,
+   "combustivel": 8775.7
+  },
+  {
+   "maq": "CA07",
+   "apelido": "CA S790 07",
+   "vin": "1CQS790APN0145223",
+   "operador": "Raimund0 Vieira",
+   "operadores": [
+    "Raimund0 Vieira",
+    "Rodrigo Prata"
+   ],
+   "ops": 55,
+   "talhoes": 53,
+   "ha": 841.7,
+   "haHr": 7.0,
+   "umidade": 17.8,
+   "umidCobertura": 100,
+   "lha": 9.9,
+   "lh": 69.3,
+   "velocidade": 5.7,
+   "horas": 119.8,
+   "combustivel": 8299.9
+  },
+  {
+   "maq": "CA19",
+   "apelido": "CA S770 19",
+   "vin": "1CQS770AJP0150299",
+   "operador": "Breno kaic",
+   "operadores": [
+    "Breno kaic",
+    "Juscelino Martins",
+    "Igor Abreu",
+    "Kelven alexandre"
+   ],
+   "ops": 44,
+   "talhoes": 40,
+   "ha": 840.8,
+   "haHr": 8.0,
+   "umidade": 15.2,
+   "umidCobertura": 100,
+   "lha": 7.6,
+   "lh": 60.8,
+   "velocidade": 6.7,
+   "horas": 104.7,
+   "combustivel": 6363.5
+  },
+  {
+   "maq": "CA18",
+   "apelido": "CA S770 18",
+   "vin": "1CQS770ACP0150250",
+   "operador": "Reynando",
+   "operadores": [
+    "Reynando",
+    "REYNANDO",
+    "Paulo Andre"
+   ],
+   "ops": 46,
+   "talhoes": 45,
+   "ha": 824.4,
+   "haHr": 7.6,
+   "umidade": 12.8,
+   "umidCobertura": 100,
+   "lha": 8.1,
+   "lh": 61.5,
+   "velocidade": 6.6,
+   "horas": 109.2,
+   "combustivel": 6710.4
+  },
+  {
+   "maq": "CA05",
+   "apelido": "CA S790 05",
+   "vin": "1CQS790ACN0145226",
+   "operador": "Jocean De Caldas",
+   "operadores": [
+    "Jocean De Caldas"
+   ],
+   "ops": 59,
+   "talhoes": 59,
+   "ha": 814.2,
+   "haHr": 6.9,
+   "umidade": 16.7,
+   "umidCobertura": 100,
+   "lha": 9.6,
+   "lh": 65.9,
+   "velocidade": 5.2,
+   "horas": 118.7,
+   "combustivel": 7826.7
+  },
+  {
+   "maq": "CA22",
+   "apelido": "CA S770 22",
+   "vin": "1CQS770APP0150302",
+   "operador": "Lucijones",
+   "operadores": [
+    "Lucijones"
+   ],
+   "ops": 37,
+   "talhoes": 36,
+   "ha": 806.6,
+   "haHr": 7.9,
+   "umidade": 29.1,
+   "umidCobertura": 6,
+   "lha": 7.9,
+   "lh": 62.6,
+   "velocidade": 6.6,
+   "horas": 102.0,
+   "combustivel": 6385.4
+  },
+  {
+   "maq": "CA28",
+   "apelido": "CA S770 28",
+   "vin": "1CQS770AEP0150344",
+   "operador": "Cleber Nascimento",
+   "operadores": [
+    "Cleber Nascimento",
+    "Cleber nascimento",
+    "Operador Desconhecido",
+    "Elionnan Dourado."
+   ],
+   "ops": 51,
+   "talhoes": 48,
+   "ha": 774.6,
+   "haHr": 6.1,
+   "umidade": 15.2,
+   "umidCobertura": 100,
+   "lha": 8.8,
+   "lh": 53.4,
+   "velocidade": 5.6,
+   "horas": 127.9,
+   "combustivel": 6824.1
+  },
+  {
+   "maq": "CA25",
+   "apelido": "CA S770 25",
+   "vin": "1CQS770AVP0150340",
+   "operador": "Dhonatan alves",
+   "operadores": [
+    "Dhonatan alves"
+   ],
+   "ops": 34,
+   "talhoes": 34,
+   "ha": 769.3,
+   "haHr": 9.6,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 7.7,
+   "lh": 73.7,
+   "velocidade": 8.4,
+   "horas": 80.5,
+   "combustivel": 5934.3
+  },
+  {
+   "maq": "CA06",
+   "apelido": "CA S790 06",
+   "vin": "1CQS790AJN0145225",
+   "operador": "Wuarderson Ferreira",
+   "operadores": [
+    "Wuarderson Ferreira"
+   ],
+   "ops": 53,
+   "talhoes": 53,
+   "ha": 768.0,
+   "haHr": 6.5,
+   "umidade": 14.3,
+   "umidCobertura": 100,
+   "lha": 10.1,
+   "lh": 66.1,
+   "velocidade": 5.2,
+   "horas": 117.7,
+   "combustivel": 7777.9
+  },
+  {
+   "maq": "CA26",
+   "apelido": "CA S760 26",
+   "vin": "1CQS760AJP0150152",
+   "operador": "Luan Lima",
+   "operadores": [
+    "Luan Lima"
+   ],
+   "ops": 52,
+   "talhoes": 51,
+   "ha": 763.5,
+   "haHr": 6.9,
+   "umidade": 16.9,
+   "umidCobertura": 100,
+   "lha": 7.9,
+   "lh": 54.6,
+   "velocidade": 6.2,
+   "horas": 110.6,
+   "combustivel": 6043.4
+  },
+  {
+   "maq": "CA17",
+   "apelido": "CA S770 17",
+   "vin": "1CQS770AAP0150341",
+   "operador": "Maciel Sales",
+   "operadores": [
+    "Maciel Sales"
+   ],
+   "ops": 45,
+   "talhoes": 45,
+   "ha": 740.8,
+   "haHr": 7.1,
+   "umidade": 19.1,
+   "umidCobertura": 100,
+   "lha": 8.5,
+   "lh": 61.0,
+   "velocidade": 6.4,
+   "horas": 103.6,
+   "combustivel": 6319.1
+  },
+  {
+   "maq": "CA24",
+   "apelido": "CA S770 24",
+   "vin": "1CQS770AVP0150306",
+   "operador": "Savio",
+   "operadores": [
+    "Savio",
+    "Alander Craveiro",
+    "Operador Desconhecido"
+   ],
+   "ops": 44,
+   "talhoes": 42,
+   "ha": 716.8,
+   "haHr": 6.9,
+   "umidade": 15.1,
+   "umidCobertura": 100,
+   "lha": 8.4,
+   "lh": 58.6,
+   "velocidade": 6.0,
+   "horas": 103.3,
+   "combustivel": 6054.1
+  },
+  {
+   "maq": "CA20",
+   "apelido": "CA S770 20",
+   "vin": "1CQS770AKP0150351",
+   "operador": "Khayo.Whynther",
+   "operadores": [
+    "Khayo.Whynther",
+    "Khayo 244",
+    "Paulo andre",
+    "Elino",
+    "Alander Craveiro",
+    "Khayo",
+    "Khayo244"
+   ],
+   "ops": 57,
+   "talhoes": 46,
+   "ha": 648.9,
+   "haHr": 6.9,
+   "umidade": 15.2,
+   "umidCobertura": 100,
+   "lha": 8.7,
+   "lh": 60.0,
+   "velocidade": 6.2,
+   "horas": 93.8,
+   "combustivel": 5624.0
+  },
+  {
+   "maq": "CA01",
+   "apelido": "CA S780 01",
+   "vin": "1CQS780AHL0135163",
+   "operador": "Willian marques",
+   "operadores": [
+    "Willian marques",
+    "Renato",
+    "Operador Desconhecido",
+    "Elionan Dourado."
+   ],
+   "ops": 49,
+   "talhoes": 43,
+   "ha": 605.6,
+   "haHr": 6.9,
+   "umidade": 16.8,
+   "umidCobertura": 100,
+   "lha": 9.9,
+   "lh": 68.6,
+   "velocidade": 6.1,
+   "horas": 87.8,
+   "combustivel": 6025.6
+  },
+  {
+   "maq": "CA03",
+   "apelido": "CA S790 03",
+   "vin": "1CQS790ACN0145218",
+   "operador": "Juscelino Martins",
+   "operadores": [
+    "Juscelino Martins"
+   ],
+   "ops": 27,
+   "talhoes": 27,
+   "ha": 374.0,
+   "haHr": 7.2,
+   "umidade": 14.9,
+   "umidCobertura": 100,
+   "lha": 9.6,
+   "lh": 69.7,
+   "velocidade": 6.0,
+   "horas": 51.8,
+   "combustivel": 3608.5
+  },
+  {
+   "maq": "CA11",
+   "apelido": "CA S670 11",
+   "vin": "1CQS670ALJ0125502",
+   "operador": "Yuri",
+   "operadores": [
+    "Yuri"
+   ],
+   "ops": 6,
+   "talhoes": 6,
+   "ha": 78.0,
+   "haHr": 6.6,
+   "umidade": 13.9,
+   "umidCobertura": 42,
+   "lha": 9.8,
+   "lh": 63.9,
+   "velocidade": 6.2,
+   "horas": 11.9,
+   "combustivel": 760.3
+  },
+  {
+   "maq": "CA14",
+   "apelido": "CA S670 14",
+   "vin": "1CQS670AVK0125515",
+   "operador": "vitor",
+   "operadores": [
+    "vitor"
+   ],
+   "ops": 1,
+   "talhoes": 1,
+   "ha": 4.7,
+   "haHr": 3.9,
+   "umidade": 30.5,
+   "umidCobertura": 100,
+   "lha": 11.2,
+   "lh": 44.2,
+   "velocidade": 4.5,
+   "horas": 1.2,
+   "combustivel": 53.2
+  }
+ ],
+ "operadores": [
+  {
+   "operador": "Joelson Santos",
+   "ha": 1071.5,
+   "talhoes": 54,
+   "haHr": 7.5,
+   "lh": 72.8
+  },
+  {
+   "operador": "Patric",
+   "ha": 1018.8,
+   "talhoes": 49,
+   "haHr": 6.9,
+   "lh": 56.2
+  },
+  {
+   "operador": "John Lenno Santos",
+   "ha": 1009.5,
+   "talhoes": 28,
+   "haHr": 8.1,
+   "lh": 69.1
+  },
+  {
+   "operador": "Cleomarques Ribeiro",
+   "ha": 957.0,
+   "talhoes": 54,
+   "haHr": 7.1,
+   "lh": 67.6
+  },
+  {
+   "operador": "Mateus Reis",
+   "ha": 947.0,
+   "talhoes": 53,
+   "haHr": 7.4,
+   "lh": 70.7
+  },
+  {
+   "operador": "Edgar Belo",
+   "ha": 869.5,
+   "talhoes": 42,
+   "haHr": 8.2,
+   "lh": 66.1
+  },
+  {
+   "operador": "Raimund0 Vieira",
+   "ha": 841.4,
+   "talhoes": 53,
+   "haHr": 7.0,
+   "lh": 69.3
+  },
+  {
+   "operador": "Jose bento",
+   "ha": 816.7,
+   "talhoes": 41,
+   "haHr": 7.4,
+   "lh": 57.5
+  },
+  {
+   "operador": "Jocean De Caldas",
+   "ha": 814.2,
+   "talhoes": 59,
+   "haHr": 6.9,
+   "lh": 65.9
+  },
+  {
+   "operador": "Lucijones",
+   "ha": 806.6,
+   "talhoes": 36,
+   "haHr": 7.9,
+   "lh": 62.6
+  },
+  {
+   "operador": "Dhonatan alves",
+   "ha": 769.3,
+   "talhoes": 34,
+   "haHr": 9.6,
+   "lh": 73.7
+  },
+  {
+   "operador": "Wuarderson Ferreira",
+   "ha": 768.0,
+   "talhoes": 53,
+   "haHr": 6.5,
+   "lh": 66.1
+  },
+  {
+   "operador": "Luan Lima",
+   "ha": 763.5,
+   "talhoes": 51,
+   "haHr": 6.9,
+   "lh": 54.6
+  },
+  {
+   "operador": "Reynando",
+   "ha": 761.3,
+   "talhoes": 43,
+   "haHr": 7.6,
+   "lh": 61.5
+  },
+  {
+   "operador": "Maciel Sales",
+   "ha": 740.8,
+   "talhoes": 45,
+   "haHr": 7.1,
+   "lh": 61.0
+  },
+  {
+   "operador": "Ramon Silva",
+   "ha": 643.1,
+   "talhoes": 45,
+   "haHr": 5.4,
+   "lh": 53.6
+  },
+  {
+   "operador": "Savio",
+   "ha": 615.1,
+   "talhoes": 38,
+   "haHr": 7.1,
+   "lh": 58.5
+  },
+  {
+   "operador": "Breno kaic",
+   "ha": 606.1,
+   "talhoes": 29,
+   "haHr": 8.1,
+   "lh": 63.4
+  },
+  {
+   "operador": "Juscelino Martins",
+   "ha": 594.4,
+   "talhoes": 40,
+   "haHr": 7.5,
+   "lh": 64.4
+  },
+  {
+   "operador": "Jose francisco",
+   "ha": 579.6,
+   "talhoes": 33,
+   "haHr": 7.0,
+   "lh": 67.0
+  },
+  {
+   "operador": "Willian marques",
+   "ha": 540.9,
+   "talhoes": 39,
+   "haHr": 7.0,
+   "lh": 68.9
+  },
+  {
+   "operador": "Yuri",
+   "ha": 522.6,
+   "talhoes": 32,
+   "haHr": 6.0,
+   "lh": 63.9
+  },
+  {
+   "operador": "Gabriel silva",
+   "ha": 509.9,
+   "talhoes": 33,
+   "haHr": 7.3,
+   "lh": 70.8
+  },
+  {
+   "operador": "Cleber Nascimento",
+   "ha": 490.5,
+   "talhoes": 31,
+   "haHr": 6.0,
+   "lh": 52.8
+  },
+  {
+   "operador": "Irinaldo Da Silva",
+   "ha": 482.0,
+   "talhoes": 30,
+   "haHr": 5.0,
+   "lh": 44.9
+  },
+  {
+   "operador": "renato",
+   "ha": 422.2,
+   "talhoes": 37,
+   "haHr": 3.3,
+   "lh": 44.9
+  },
+  {
+   "operador": "Khayo.Whynther",
+   "ha": 358.3,
+   "talhoes": 25,
+   "haHr": 7.3,
+   "lh": 61.7
+  },
+  {
+   "operador": "Gabriel Silva",
+   "ha": 335.0,
+   "talhoes": 19,
+   "haHr": 6.9,
+   "lh": 68.9
+  },
+  {
+   "operador": "Cleber nascimento",
+   "ha": 270.1,
+   "talhoes": 17,
+   "haHr": 6.0,
+   "lh": 54.2
+  },
+  {
+   "operador": "Anazilso Carvalho",
+   "ha": 198.3,
+   "talhoes": 14,
+   "haHr": 5.5,
+   "lh": 64.6
+  },
+  {
+   "operador": "Khayo 244",
+   "ha": 148.3,
+   "talhoes": 13,
+   "haHr": 6.0,
+   "lh": 58.5
+  },
+  {
+   "operador": "Gustavo",
+   "ha": 141.1,
+   "talhoes": 16,
+   "haHr": 3.8,
+   "lh": 47.7
+  },
+  {
+   "operador": "Gustavo Santos",
+   "ha": 139.7,
+   "talhoes": 8,
+   "haHr": 4.4,
+   "lh": 47.5
+  },
+  {
+   "operador": "Weslei",
+   "ha": 139.4,
+   "talhoes": 12,
+   "haHr": 3.7,
+   "lh": 46.0
+  },
+  {
+   "operador": "Jose Bento",
+   "ha": 109.9,
+   "talhoes": 7,
+   "haHr": 6.1,
+   "lh": 54.2
+  },
+  {
+   "operador": "Operador Desconhecido",
+   "ha": 89.3,
+   "talhoes": 12,
+   "haHr": 5.6,
+   "lh": 57.9
+  },
+  {
+   "operador": "Alander Craveiro",
+   "ha": 83.8,
+   "talhoes": 8,
+   "haHr": 6.5,
+   "lh": 61.4
+  },
+  {
+   "operador": "Paulo andre",
+   "ha": 59.7,
+   "talhoes": 3,
+   "haHr": 6.8,
+   "lh": 56.7
+  },
+  {
+   "operador": "REYNANDO",
+   "ha": 57.6,
+   "talhoes": 1,
+   "haHr": 7.4,
+   "lh": 62.4
+  },
+  {
+   "operador": "Elino",
+   "ha": 53.5,
+   "talhoes": 7,
+   "haHr": 7.6,
+   "lh": 57.4
+  },
+  {
+   "operador": "Juliano Duarte",
+   "ha": 44.1,
+   "talhoes": 4,
+   "haHr": 5.9,
+   "lh": 63.7
+  },
+  {
+   "operador": "Sidiney Batista",
+   "ha": 31.2,
+   "talhoes": 1,
+   "haHr": 7.7,
+   "lh": 74.5
+  },
+  {
+   "operador": "Renato",
+   "ha": 29.7,
+   "talhoes": 5,
+   "haHr": 6.2,
+   "lh": 67.1
+  },
+  {
+   "operador": "Paulo Andre",
+   "ha": 28.6,
+   "talhoes": 7,
+   "haHr": 6.9,
+   "lh": 53.3
+  },
+  {
+   "operador": "Jocean de caldas",
+   "ha": 17.7,
+   "talhoes": 4,
+   "haHr": 7.1,
+   "lh": 71.8
+  },
+  {
+   "operador": "Elionan Dourado.",
+   "ha": 11.9,
+   "talhoes": 2,
+   "haHr": 6.3,
+   "lh": 66.1
+  },
+  {
+   "operador": "Igor Abreu",
+   "ha": 10.1,
+   "talhoes": 1,
+   "haHr": 5.2,
+   "lh": 52.6
+  },
+  {
+   "operador": "Kelven alexandre",
+   "ha": 6.9,
+   "talhoes": 1,
+   "haHr": 7.9,
+   "lh": 59.4
+  },
+  {
+   "operador": "Elionnan Dourado.",
+   "ha": 6.7,
+   "talhoes": 1,
+   "haHr": 7.4,
+   "lh": 57.6
+  },
+  {
+   "operador": "vitor",
+   "ha": 6.0,
+   "talhoes": 1,
+   "haHr": 4.1,
+   "lh": 44.0
+  },
+  {
+   "operador": "Khayo",
+   "ha": 4.5,
+   "talhoes": 1,
+   "haHr": 6.8,
+   "lh": 65.0
+  },
+  {
+   "operador": "Rodrigo Prata",
+   "ha": 0.3,
+   "talhoes": 1,
+   "haHr": 2.5,
+   "lh": 48.7
+  },
+  {
+   "operador": "Vitor",
+   "ha": 0.2,
+   "talhoes": 1,
+   "haHr": 0.2,
+   "lh": 24.1
+  },
+  {
+   "operador": "Khayo244",
+   "ha": 0.1,
+   "talhoes": 1,
+   "haHr": 6.8,
+   "lh": 63.1
+  }
+ ],
+ "totalHa": 18930.0,
+ "semMaquina": {
+  "Máquina Desconhecida": 1967.4,
+  "CA S670 CONFG": 445.9
+ }
+}

@@ -1,0 +1,403 @@
+{
+ "culturas": [
+  "Milho Seco"
+ ],
+ "maquinas": [
+  {
+   "maq": "CA10",
+   "apelido": "CA S790 10",
+   "vin": "1CQS790AVN0145227",
+   "operador": "Jose fracisco",
+   "operadores": [
+    "Jose fracisco",
+    "Jose franciso",
+    "Jose francisco",
+    "Jose franisco",
+    "ALEX BEZERRA",
+    "Alexandre",
+    "ALEX BEZERRA."
+   ],
+   "ops": 40,
+   "talhoes": 28,
+   "ha": 897.0,
+   "haHr": 7.2,
+   "umidade": 13.0,
+   "umidCobertura": 100,
+   "lha": 7.9,
+   "lh": 57.4,
+   "velocidade": 6.5,
+   "horas": 123.8,
+   "combustivel": 7111.7
+  },
+  {
+   "maq": "CA04",
+   "apelido": "CA S790 04",
+   "vin": "1CQS790ACN0145221",
+   "operador": "Leandro",
+   "operadores": [
+    "Leandro",
+    "Leandro barbosa.",
+    "Alexandre"
+   ],
+   "ops": 39,
+   "talhoes": 32,
+   "ha": 886.6,
+   "haHr": 6.5,
+   "umidade": 10.3,
+   "umidCobertura": 100,
+   "lha": 9.1,
+   "lh": 59.0,
+   "velocidade": 7.2,
+   "horas": 137.0,
+   "combustivel": 8080.6
+  },
+  {
+   "maq": "CA02",
+   "apelido": "CA S790 02",
+   "vin": "1CQS790ACN0145212",
+   "operador": "Cleomarques ribeiro",
+   "operadores": [
+    "Cleomarques ribeiro",
+    "PEDRO PAULO"
+   ],
+   "ops": 45,
+   "talhoes": 33,
+   "ha": 802.8,
+   "haHr": 5.8,
+   "umidade": 22.1,
+   "umidCobertura": 9,
+   "lha": 9.5,
+   "lh": 55.5,
+   "velocidade": 6.4,
+   "horas": 137.4,
+   "combustivel": 7626.6
+  },
+  {
+   "maq": "CA09",
+   "apelido": "CA S790 09",
+   "vin": "1CQS790ATN0145222",
+   "operador": "Elionan Dourado.",
+   "operadores": [
+    "Elionan Dourado.",
+    "LEOMARIO RODRIGUES",
+    "Jocean",
+    "PEDRO PAULO"
+   ],
+   "ops": 39,
+   "talhoes": 31,
+   "ha": 791.9,
+   "haHr": 6.1,
+   "umidade": 21.5,
+   "umidCobertura": 100,
+   "lha": 9.6,
+   "lh": 58.2,
+   "velocidade": 6.8,
+   "horas": 130.8,
+   "combustivel": 7616.4
+  },
+  {
+   "maq": "CA08",
+   "apelido": "CA S790 08",
+   "vin": "1CQS790ATN0145219",
+   "operador": "Rafael Matias",
+   "operadores": [
+    "Rafael Matias",
+    "Alander Craveiro"
+   ],
+   "ops": 30,
+   "talhoes": 26,
+   "ha": 754.6,
+   "haHr": 7.4,
+   "umidade": 9.9,
+   "umidCobertura": 100,
+   "lha": 8.3,
+   "lh": 61.2,
+   "velocidade": 6.9,
+   "horas": 102.3,
+   "combustivel": 6260.8
+  },
+  {
+   "maq": "CA03",
+   "apelido": "CA S790 03",
+   "vin": "1CQS790ACN0145218",
+   "operador": "John Lenno Santos",
+   "operadores": [
+    "John Lenno Santos",
+    "Alander Craveiro",
+    "Melciades wanderley"
+   ],
+   "ops": 33,
+   "talhoes": 30,
+   "ha": 751.2,
+   "haHr": 6.2,
+   "umidade": 14.0,
+   "umidCobertura": 100,
+   "lha": 9.4,
+   "lh": 58.8,
+   "velocidade": 7.0,
+   "horas": 120.2,
+   "combustivel": 7065.3
+  },
+  {
+   "maq": "CA05",
+   "apelido": "CA S790 05",
+   "vin": "1CQS790ACN0145226",
+   "operador": "Sidiney Batista",
+   "operadores": [
+    "Sidiney Batista",
+    "Alander Craveiro"
+   ],
+   "ops": 18,
+   "talhoes": 17,
+   "ha": 721.4,
+   "haHr": 7.7,
+   "umidade": 13.9,
+   "umidCobertura": 100,
+   "lha": 8.1,
+   "lh": 62.3,
+   "velocidade": 7.0,
+   "horas": 93.3,
+   "combustivel": 5814.9
+  },
+  {
+   "maq": "CA07",
+   "apelido": "CA S790 07",
+   "vin": "1CQS790APN0145223",
+   "operador": "Raimund0 Vieira",
+   "operadores": [
+    "Raimund0 Vieira",
+    "Marques yuri",
+    "Maciel Sales",
+    "Maurifran alves"
+   ],
+   "ops": 20,
+   "talhoes": 15,
+   "ha": 642.8,
+   "haHr": 7.6,
+   "umidade": 14.0,
+   "umidCobertura": 100,
+   "lha": 8.2,
+   "lh": 62.0,
+   "velocidade": 6.9,
+   "horas": 84.9,
+   "combustivel": 5262.2
+  },
+  {
+   "maq": "CA20",
+   "apelido": "CA S770 20",
+   "vin": "1CQS770AKP0150351",
+   "operador": "Wuarderson",
+   "operadores": [
+    "Wuarderson",
+    "Maurifran alves",
+    "Wanderson Ferreira",
+    "Pau'dagua",
+    "wurderson"
+   ],
+   "ops": 50,
+   "talhoes": 27,
+   "ha": 514.4,
+   "haHr": 6.1,
+   "umidade": 12.0,
+   "umidCobertura": 100,
+   "lha": 8.1,
+   "lh": 49.7,
+   "velocidade": 6.7,
+   "horas": 84.4,
+   "combustivel": 4192.1
+  }
+ ],
+ "operadores": [
+  {
+   "operador": "Cleomarques ribeiro",
+   "ha": 752.0,
+   "talhoes": 31,
+   "haHr": 5.9,
+   "lh": 55.6
+  },
+  {
+   "operador": "Sidiney Batista",
+   "ha": 719.8,
+   "talhoes": 17,
+   "haHr": 7.7,
+   "lh": 62.3
+  },
+  {
+   "operador": "John Lenno Santos",
+   "ha": 715.7,
+   "talhoes": 27,
+   "haHr": 6.3,
+   "lh": 58.8
+  },
+  {
+   "operador": "Rafael Matias",
+   "ha": 688.4,
+   "talhoes": 25,
+   "haHr": 7.4,
+   "lh": 61.2
+  },
+  {
+   "operador": "Elionan Dourado.",
+   "ha": 640.7,
+   "talhoes": 24,
+   "haHr": 6.2,
+   "lh": 58.7
+  },
+  {
+   "operador": "Leandro",
+   "ha": 605.8,
+   "talhoes": 20,
+   "haHr": 6.4,
+   "lh": 59.0
+  },
+  {
+   "operador": "Raimund0 Vieira",
+   "ha": 595.5,
+   "talhoes": 15,
+   "haHr": 7.6,
+   "lh": 62.3
+  },
+  {
+   "operador": "Wuarderson",
+   "ha": 376.0,
+   "talhoes": 24,
+   "haHr": 6.4,
+   "lh": 50.1
+  },
+  {
+   "operador": "Jose fracisco",
+   "ha": 323.3,
+   "talhoes": 6,
+   "haHr": 7.4,
+   "lh": 57.8
+  },
+  {
+   "operador": "Jose franciso",
+   "ha": 213.6,
+   "talhoes": 9,
+   "haHr": 7.3,
+   "lh": 57.8
+  },
+  {
+   "operador": "Leandro barbosa.",
+   "ha": 183.9,
+   "talhoes": 9,
+   "haHr": 6.7,
+   "lh": 58.9
+  },
+  {
+   "operador": "Jose francisco",
+   "ha": 160.8,
+   "talhoes": 9,
+   "haHr": 7.1,
+   "lh": 56.6
+  },
+  {
+   "operador": "Alexandre",
+   "ha": 125.0,
+   "talhoes": 10,
+   "haHr": 6.6,
+   "lh": 58.6
+  },
+  {
+   "operador": "Jose franisco",
+   "ha": 88.5,
+   "talhoes": 7,
+   "haHr": 7.0,
+   "lh": 55.1
+  },
+  {
+   "operador": "Alander Craveiro",
+   "ha": 87.1,
+   "talhoes": 6,
+   "haHr": 6.9,
+   "lh": 60.9
+  },
+  {
+   "operador": "LEOMARIO RODRIGUES",
+   "ha": 74.8,
+   "talhoes": 9,
+   "haHr": 5.3,
+   "lh": 56.3
+  },
+  {
+   "operador": "Maurifran alves",
+   "ha": 70.2,
+   "talhoes": 11,
+   "haHr": 4.7,
+   "lh": 47.8
+  },
+  {
+   "operador": "PEDRO PAULO",
+   "ha": 65.0,
+   "talhoes": 7,
+   "haHr": 5.2,
+   "lh": 55.0
+  },
+  {
+   "operador": "Jocean",
+   "ha": 62.1,
+   "talhoes": 4,
+   "haHr": 6.2,
+   "lh": 56.0
+  },
+  {
+   "operador": "ALEX BEZERRA",
+   "ha": 57.2,
+   "talhoes": 4,
+   "haHr": 7.3,
+   "lh": 61.8
+  },
+  {
+   "operador": "Wanderson Ferreira",
+   "ha": 45.0,
+   "talhoes": 3,
+   "haHr": 5.9,
+   "lh": 52.1
+  },
+  {
+   "operador": "Pau'dagua",
+   "ha": 31.8,
+   "talhoes": 3,
+   "haHr": 6.3,
+   "lh": 48.4
+  },
+  {
+   "operador": "ALEX BEZERRA.",
+   "ha": 25.5,
+   "talhoes": 3,
+   "haHr": 5.9,
+   "lh": 56.1
+  },
+  {
+   "operador": "Marques yuri",
+   "ha": 22.8,
+   "talhoes": 1,
+   "haHr": 7.7,
+   "lh": 61.2
+  },
+  {
+   "operador": "Melciades wanderley",
+   "ha": 16.1,
+   "talhoes": 3,
+   "haHr": 5.9,
+   "lh": 55.6
+  },
+  {
+   "operador": "Maciel Sales",
+   "ha": 15.0,
+   "talhoes": 1,
+   "haHr": 6.9,
+   "lh": 59.5
+  },
+  {
+   "operador": "wurderson",
+   "ha": 0.9,
+   "talhoes": 1,
+   "haHr": 6.3,
+   "lh": 51.8
+  }
+ ],
+ "totalHa": 6762.7,
+ "semMaquina": {}
+}

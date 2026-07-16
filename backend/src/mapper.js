@@ -197,7 +197,42 @@ function loadMachineNames() {
 const maqNome = (names, vin) => names[vin] || (vin ? vin.slice(-6) : '—');
 
 // dados oficiais de fechamento (planilha → JSON). Mapeia dataset ano|cultura → arquivo.
-const FECHAMENTOS = { '2026|SOYBEANS': 'fechamento_soja_2026.json', '2025|CORN_WET': 'fechamento_milho_2025.json', '2026|MUNG_BEAN': 'opc_feijao_2026.json' };
+const FECHAMENTOS = { '2026|SOYBEANS': 'fechamento_soja_2026.json', '2025|CORN_WET': 'fechamento_milho_2025.json' };
+
+// FROTA vinda da exportação "Analisador de Trabalho > Colheita" do OPC (uma linha por
+// máquina/operador/talhão). Traz o que a API NÃO dá: tempo de motor e combustível →
+// rendimento (ha/h), consumo (l/ha e l/h), velocidade e umidade por máquina.
+// Gerado por `parse_opc_frota.py`. Reexportar do OPC quando quiser atualizar.
+const FROTA_OPC = {
+  '2026|SOYBEANS': 'opc_frota_soja_2026.json',
+  '2026|CORN_WET': 'opc_frota_milho_2026.json',
+  '2026|MUNG_BEAN': 'opc_frota_feijao_2026.json',
+};
+
+// Substitui a frota do dataset pela da exportação do OPC (dados reais por máquina).
+function enrichFrotaOpc(ds, file) {
+  if (!ds) return;
+  const fz = loadFechamento(file); // mesmo loader (lê JSON de data/)
+  if (!fz || !fz.maquinas || !fz.maquinas.length) return;
+  const opcByVin = {};
+  (ds.maquinas || []).forEach(m => { if (m.vin) opcByVin[m.vin] = m; });
+  ds.maquinas = fz.maquinas.map(fm => {
+    const o = opcByVin[fm.vin] || {};
+    return {
+      maq: fm.maq, vin: fm.vin,
+      op: fm.operador || o.op || '—',
+      operadores: fm.operadores || o.operadores || [],
+      ops: fm.ops ?? o.ops ?? null,
+      ha: fm.ha,
+      haHr: fm.haHr, lh: fm.lh, lha: fm.lha,
+      umidade: fm.umidade, umidCobertura: fm.umidCobertura,
+      velocidade: fm.velocidade,
+      horas: fm.horas,
+      status: 'concluido',
+    };
+  }).sort((a, b) => (b.ha || 0) - (a.ha || 0));
+  if (fz.operadores && fz.operadores.length) ds.operadores = fz.operadores;
+}
 function loadFechamento(file) {
   const p = join(config.dataDir, file);
   if (existsSync(p)) { try { return JSON.parse(readFileSync(p, 'utf8')); } catch {} }
@@ -549,7 +584,8 @@ export function buildSnapshotFromJD(perField, orgId) {
     const evolucao = Object.keys(evolMap).sort().map(d => ({ d: d.slice(8, 10) + '/' + d.slice(5, 7), ha: Number(evolMap[d].toFixed(1)), meta: null }));
 
     datasets[yc] = { resumo: resumoColheita(talhoes), talhoes, evolucao, maquinas: machineListYC(perField, crop, yr), safraAnterior: anterior, scaleMax: SCALE_BY_CROP[crop] || 110 };
-    if (FECHAMENTOS[yc]) enrichFromFechamento(datasets[yc], FECHAMENTOS[yc], yc === '2026|MUNG_BEAN'); // feijão: só frota (área/progresso vêm da API ao vivo)
+    if (FECHAMENTOS[yc]) enrichFromFechamento(datasets[yc], FECHAMENTOS[yc]); // números oficiais do fechamento
+    if (FROTA_OPC[yc]) enrichFrotaOpc(datasets[yc], FROTA_OPC[yc]);           // frota real (ha/h, l/ha, l/h, umidade, velocidade)
     // KPI "safra anterior": se o ano anterior tem fechamento oficial e este dataset NÃO é fechamento
     // (cultura ao vivo, ex.: milho 2026), usa a MÉDIA OFICIAL (total) do fechamento anterior — não o
     // sensor nem a col J por talhão, que superestimam. Detalhe por talhão (comparativo) segue col J.
