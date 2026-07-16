@@ -174,7 +174,7 @@ export function buildMockSnapshot() {
 // ─── Conversão dos dados REAIS da John Deere ───
 const CROP_LABELS = { SOYBEANS: 'Soja', CORN: 'Milho', CORN_WET: 'Milho', COTTON: 'Algodão', SORGHUM: 'Sorgo', WHEAT: 'Trigo', BEANS: 'Feijão', DRY_BEANS: 'Feijão', MUNG_BEAN: 'Feijão Mungo', SESAME: 'Gergelim', RICE: 'Arroz', MILLET: 'Milheto' };
 const OP_LABELS = { seeding: 'Plantio', application: 'Aplicação', harvest: 'Colheita', tillage: 'Preparo de solo' };
-const SCALE_BY_CROP = { CORN_WET: 150, CORN: 150, SOYBEANS: 110, SORGHUM: 60, MUNG_BEAN: 60, SESAME: 20 }; // escala do mapa (sc/ha) por cultura
+const SCALE_BY_CROP = { CORN_WET: 150, CORN: 150, SOYBEANS: 110, SORGHUM: 60, MUNG_BEAN: 30, SESAME: 20 }; // escala do mapa (sc/ha) por cultura
 const STD_MOISTURE = 13; // umidade padrão p/ correção de produtividade
 const cropLabel = c => CROP_LABELS[c] || (c ? String(c).replace(/_/g, ' ') : '—');
 const harvestYear = o => { const d = o.endDate || o.startDate; return d ? d.slice(0, 4) : null; }; // ano pela data da colheita
