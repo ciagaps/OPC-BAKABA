@@ -37,18 +37,14 @@ async function pollReal() {
     op._measurement = await harvestMeasurement(op).catch(() => null);
   });
 
-  // medições dos PLANTIOS → área plantada (para % colhido / falta colher reais).
-  // Só onde há colheita da mesma cultura/ano (evita buscar plantio de culturas não colhidas).
-  const anoOp = op => { const d = op.endDate || op.startDate; return d ? d.slice(0, 4) : null; };
-  const colhidoYC = new Set();
-  for (const pf of perField)
-    for (const op of pf.ops)
-      if (op.fieldOperationType === 'harvest' && op.cropName && anoOp(op)) colhidoYC.add(anoOp(op) + '|' + op.cropName);
+  // medições dos PLANTIOS → área plantada (p/ % colhido real) + população realizada/alvo,
+  // velocidade e variedades (relatório de Plantio). Busca TODOS: a soja é plantada num ano
+  // e colhida no outro, então filtrar por ano da colheita deixaria plantios de fora.
   const seedings = [];
   for (const pf of perField)
     for (const op of pf.ops)
-      if (op.fieldOperationType === 'seeding' && op.cropName && colhidoYC.has(anoOp(op) + '|' + op.cropName)) seedings.push(op);
-  console.log(`[poll] ${seedings.length} plantios (culturas colhidas). Buscando área plantada...`);
+      if (op.fieldOperationType === 'seeding' && op.cropName) seedings.push(op);
+  console.log(`[poll] ${seedings.length} plantios. Buscando área/população...`);
   await mapLimit(seedings, 6, async (op) => {
     op._measurement = await seedingMeasurement(op).catch(() => null);
   });

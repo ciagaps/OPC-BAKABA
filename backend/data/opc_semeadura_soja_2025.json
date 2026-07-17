@@ -1,0 +1,460 @@
+{
+ "culturas": [
+  "Soja"
+ ],
+ "maquinas": [
+  {
+   "maq": "TR 9R 02",
+   "apelido": "TR 9R 02",
+   "vin": "1RW9640DCNA075803",
+   "operador": "Juscelino Martins",
+   "operadores": [
+    "Juscelino Martins",
+    "Rafael Matias",
+    "Rafael  matias",
+    "Juscelino-Martins",
+    "Juscellyno-Martins"
+   ],
+   "ops": 125,
+   "talhoes": 71,
+   "ha": 3945.6,
+   "haHr": 17.3,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.3,
+   "lh": 73.7,
+   "velocidade": 6.9,
+   "horas": 228.7,
+   "combustivel": 16844.6
+  },
+  {
+   "maq": "TR 9RX 05",
+   "apelido": "TR 9RX 05",
+   "vin": "1RW9640DCPJ822438",
+   "operador": "John Lenno Santos",
+   "operadores": [
+    "John Lenno Santos",
+    "Leandro Barbosa",
+    "Cleber Nascimento",
+    "Genilson"
+   ],
+   "ops": 127,
+   "talhoes": 73,
+   "ha": 3870.7,
+   "haHr": 16.8,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.5,
+   "lh": 75.0,
+   "velocidade": 6.7,
+   "horas": 230.6,
+   "combustivel": 17292.7
+  },
+  {
+   "maq": "TR 9R 03",
+   "apelido": "TR 9R 03",
+   "vin": "1RW9640DKNA075787",
+   "operador": "Sidiney Batista",
+   "operadores": [
+    "Sidiney Batista",
+    "Jocean De Caldas",
+    "Jocean"
+   ],
+   "ops": 116,
+   "talhoes": 67,
+   "ha": 3154.4,
+   "haHr": 16.6,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.1,
+   "lh": 68.5,
+   "velocidade": 6.8,
+   "horas": 190.5,
+   "combustivel": 13050.9
+  },
+  {
+   "maq": "TR 8R 01",
+   "apelido": "TR 8R 01",
+   "vin": "1BM8400RPNS101159",
+   "operador": "Cleber Nascimento",
+   "operadores": [
+    "Cleber Nascimento",
+    "Franklin Santos",
+    "Franklin",
+    "Elionan Dourado",
+    "Franklin santos",
+    "Wuarderson Ferreira"
+   ],
+   "ops": 107,
+   "talhoes": 60,
+   "ha": 2423.3,
+   "haHr": 11.0,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 5.5,
+   "lh": 60.2,
+   "velocidade": 10.0,
+   "horas": 220.7,
+   "combustivel": 13299.0
+  },
+  {
+   "maq": "TR 9RX 04",
+   "apelido": "TR 9RX 04",
+   "vin": "1RW9540DLNJ820516",
+   "operador": "Marcio costa",
+   "operadores": [
+    "Marcio costa",
+    "Cleomarques Ribeiro",
+    "Marcos Costa",
+    "Cleomarques ribeiro",
+    "Clemarques"
+   ],
+   "ops": 94,
+   "talhoes": 54,
+   "ha": 2322.5,
+   "haHr": 12.0,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 5.3,
+   "lh": 64.2,
+   "velocidade": 6.1,
+   "horas": 192.9,
+   "combustivel": 12391.6
+  },
+  {
+   "maq": "TR 8R 02",
+   "apelido": "TR 8R 02",
+   "vin": "1BM8400RCNS101031",
+   "operador": "Igor Abreu",
+   "operadores": [
+    "Igor Abreu",
+    "Wuarderson Ferreira",
+    "igor abreu",
+    "Wuarderson"
+   ],
+   "ops": 102,
+   "talhoes": 56,
+   "ha": 2242.3,
+   "haHr": 11.3,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 5.1,
+   "lh": 57.1,
+   "velocidade": 10.4,
+   "horas": 199.1,
+   "combustivel": 11373.1
+  },
+  {
+   "maq": "TR 8R 03",
+   "apelido": "TR 8R 03",
+   "vin": "1BM8400RCPS102036",
+   "operador": "Raimundo Vieira",
+   "operadores": [
+    "Raimundo Vieira",
+    "Genilson Rodrigues",
+    "Genilson",
+    "Raimundo vieira"
+   ],
+   "ops": 84,
+   "talhoes": 47,
+   "ha": 1734.4,
+   "haHr": 11.8,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.9,
+   "lh": 57.5,
+   "velocidade": 6.1,
+   "horas": 146.5,
+   "combustivel": 8418.9
+  },
+  {
+   "maq": "TR 7230j 06",
+   "apelido": "TR 7230j 06",
+   "vin": "1BM7230JVJH002285",
+   "operador": "Renato Ribeiro",
+   "operadores": [
+    "Renato Ribeiro",
+    "Jose Bento",
+    "Vitor Mendes",
+    "renato  ribeiro",
+    "Jose Francisco",
+    "Renato"
+   ],
+   "ops": 99,
+   "talhoes": 54,
+   "ha": 1498.1,
+   "haHr": 7.4,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 5.0,
+   "lh": 36.8,
+   "velocidade": 6.8,
+   "horas": 203.5,
+   "combustivel": 7492.8
+  },
+  {
+   "maq": "TR 9R 01",
+   "apelido": "TR 9R 01",
+   "vin": "1RW9620RKMP066695",
+   "operador": "Raimundo vieira",
+   "operadores": [
+    "Raimundo vieira",
+    "Genilson Rodrigues",
+    "Raimundo Vieira"
+   ],
+   "ops": 15,
+   "talhoes": 10,
+   "ha": 201.7,
+   "haHr": 13.4,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 5.5,
+   "lh": 73.9,
+   "velocidade": 6.6,
+   "horas": 15.0,
+   "combustivel": 1108.6
+  }
+ ],
+ "operadores": [
+  {
+   "operador": "John Lenno Santos",
+   "ha": 2326.3,
+   "talhoes": 62,
+   "haHr": 16.6,
+   "lh": 71.2
+  },
+  {
+   "operador": "Sidiney Batista",
+   "ha": 1999.6,
+   "talhoes": 57,
+   "haHr": 16.5,
+   "lh": 66.2
+  },
+  {
+   "operador": "Juscelino Martins",
+   "ha": 1966.8,
+   "talhoes": 56,
+   "haHr": 16.8,
+   "lh": 73.4
+  },
+  {
+   "operador": "Leandro Barbosa",
+   "ha": 1519.0,
+   "talhoes": 51,
+   "haHr": 17.2,
+   "lh": 80.9
+  },
+  {
+   "operador": "Marcio costa",
+   "ha": 1215.3,
+   "talhoes": 39,
+   "haHr": 12.1,
+   "lh": 68.2
+  },
+  {
+   "operador": "Rafael Matias",
+   "ha": 1154.6,
+   "talhoes": 38,
+   "haHr": 17.9,
+   "lh": 77.0
+  },
+  {
+   "operador": "Cleber Nascimento",
+   "ha": 1115.5,
+   "talhoes": 49,
+   "haHr": 10.8,
+   "lh": 59.8
+  },
+  {
+   "operador": "Cleomarques Ribeiro",
+   "ha": 957.5,
+   "talhoes": 35,
+   "haHr": 11.7,
+   "lh": 59.1
+  },
+  {
+   "operador": "Raimundo Vieira",
+   "ha": 881.7,
+   "talhoes": 36,
+   "haHr": 11.5,
+   "lh": 54.9
+  },
+  {
+   "operador": "Igor Abreu",
+   "ha": 853.2,
+   "talhoes": 38,
+   "haHr": 11.8,
+   "lh": 61.7
+  },
+  {
+   "operador": "Franklin Santos",
+   "ha": 827.9,
+   "talhoes": 33,
+   "haHr": 10.4,
+   "lh": 60.4
+  },
+  {
+   "operador": "Rafael  matias",
+   "ha": 815.0,
+   "talhoes": 17,
+   "haHr": 17.6,
+   "lh": 70.1
+  },
+  {
+   "operador": "Jocean De Caldas",
+   "ha": 792.6,
+   "talhoes": 37,
+   "haHr": 16.8,
+   "lh": 75.4
+  },
+  {
+   "operador": "Wuarderson Ferreira",
+   "ha": 695.3,
+   "talhoes": 30,
+   "haHr": 9.9,
+   "lh": 52.0
+  },
+  {
+   "operador": "Genilson Rodrigues",
+   "ha": 693.3,
+   "talhoes": 35,
+   "haHr": 12.1,
+   "lh": 62.2
+  },
+  {
+   "operador": "Renato Ribeiro",
+   "ha": 574.5,
+   "talhoes": 31,
+   "haHr": 6.9,
+   "lh": 35.8
+  },
+  {
+   "operador": "Jose Bento",
+   "ha": 542.7,
+   "talhoes": 37,
+   "haHr": 7.4,
+   "lh": 38.9
+  },
+  {
+   "operador": "igor abreu",
+   "ha": 501.7,
+   "talhoes": 14,
+   "haHr": 12.9,
+   "lh": 59.7
+  },
+  {
+   "operador": "Franklin",
+   "ha": 404.6,
+   "talhoes": 11,
+   "haHr": 13.4,
+   "lh": 62.8
+  },
+  {
+   "operador": "Jocean",
+   "ha": 362.2,
+   "talhoes": 13,
+   "haHr": 16.3,
+   "lh": 66.1
+  },
+  {
+   "operador": "Vitor Mendes",
+   "ha": 247.4,
+   "talhoes": 11,
+   "haHr": 8.2,
+   "lh": 36.7
+  },
+  {
+   "operador": "Genilson",
+   "ha": 224.9,
+   "talhoes": 8,
+   "haHr": 13.0,
+   "lh": 59.3
+  },
+  {
+   "operador": "Wuarderson",
+   "ha": 192.6,
+   "talhoes": 9,
+   "haHr": 10.8,
+   "lh": 53.2
+  },
+  {
+   "operador": "Raimundo vieira",
+   "ha": 145.5,
+   "talhoes": 9,
+   "haHr": 13.3,
+   "lh": 71.7
+  },
+  {
+   "operador": "renato  ribeiro",
+   "ha": 67.1,
+   "talhoes": 6,
+   "haHr": 7.2,
+   "lh": 33.2
+  },
+  {
+   "operador": "Marcos Costa",
+   "ha": 57.1,
+   "talhoes": 5,
+   "haHr": 14.4,
+   "lh": 72.2
+  },
+  {
+   "operador": "Cleomarques ribeiro",
+   "ha": 56.3,
+   "talhoes": 5,
+   "haHr": 14.0,
+   "lh": 66.7
+  },
+  {
+   "operador": "Elionan Dourado",
+   "ha": 53.6,
+   "talhoes": 2,
+   "haHr": 12.4,
+   "lh": 59.5
+  },
+  {
+   "operador": "Franklin santos",
+   "ha": 37.2,
+   "talhoes": 2,
+   "haHr": 9.2,
+   "lh": 53.8
+  },
+  {
+   "operador": "Clemarques",
+   "ha": 36.2,
+   "talhoes": 2,
+   "haHr": 13.4,
+   "lh": 58.8
+  },
+  {
+   "operador": "Jose Francisco",
+   "ha": 33.4,
+   "talhoes": 2,
+   "haHr": 8.6,
+   "lh": 34.7
+  },
+  {
+   "operador": "Renato",
+   "ha": 33.0,
+   "talhoes": 1,
+   "haHr": 8.1,
+   "lh": 31.8
+  },
+  {
+   "operador": "Juscelino-Martins",
+   "ha": 5.2,
+   "talhoes": 1,
+   "haHr": 13.5,
+   "lh": 57.5
+  },
+  {
+   "operador": "Juscellyno-Martins",
+   "ha": 4.0,
+   "talhoes": 1,
+   "haHr": 13.9,
+   "lh": 55.2
+  }
+ ],
+ "totalHa": 21393.0,
+ "semMaquina": {}
+}

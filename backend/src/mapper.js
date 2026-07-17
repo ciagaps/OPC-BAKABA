@@ -209,6 +209,42 @@ const FROTA_OPC = {
   '2026|MUNG_BEAN': 'opc_frota_feijao_2026.json',
 };
 
+// Frota de PLANTIO (export "Analisador de Trabalho > Semeadura"), por SAFRA.
+// Obs: a soja da safra 2026 foi plantada em out/2025 — por isso o arquivo é _2025.
+const SEMEADURAS = {
+  '2026|SOYBEANS': 'opc_semeadura_soja_2025.json',
+  '2026|CORN_WET': 'opc_semeadura_milho_2026.json',
+  '2026|MUNG_BEAN': 'opc_semeadura_feijao_2026.json',
+};
+
+// Ciclo máximo plantio→colheita. As culturas daqui levam ~70-140 dias (soja de out
+// colhe em fev = ~120d). A janela SÓ existe para parear o plantio com a sua colheita.
+// CUIDADO: janela larga demais pareia errado quando a colheita do ano some do OPC —
+// com 550d, 4 talhões de milho plantados em fev/2025 (cuja colheita de 2025 não está
+// no OPC) casavam com a colheita de 2026, jogando 260 ha para a safra errada.
+const CICLO_MAX_DIAS = 300;
+
+// A que SAFRA (= ano da colheita) pertence um plantio. Juliano pediu agrupar por safra:
+// o plantio da soja de out/2025 aparece junto da colheita de 2026.
+// Regra: 1ª colheita da mesma cultura, no mesmo talhão, dentro do ciclo máximo.
+// Sem colheita (safra em curso), plantio de setembro+ colhe no ano seguinte.
+function safraDoPlantio(sOp, ops, crop) {
+  const d = sOp.startDate || sOp.endDate;
+  if (!d) return null;
+  const t = Date.parse(d);
+  let prox = null;
+  for (const o of ops) {
+    if (o.fieldOperationType !== 'harvest' || o.cropName !== crop) continue;
+    const hd = o.endDate || o.startDate;
+    if (!hd) continue;
+    const ht = Date.parse(hd);
+    if (ht > t && (ht - t) < CICLO_MAX_DIAS * 864e5 && (!prox || ht < prox)) prox = ht;
+  }
+  if (prox) return new Date(prox).toISOString().slice(0, 4);
+  const dt = new Date(t);
+  return String(dt.getUTCFullYear() + (dt.getUTCMonth() >= 8 ? 1 : 0));
+}
+
 // Substitui a frota do dataset pela da exportação do OPC (dados reais por máquina).
 function enrichFrotaOpc(ds, file) {
   if (!ds) return;
@@ -363,8 +399,12 @@ function harvestValues(op) {
   };
 }
 
-// área plantada de uma operação de plantio (op._measurement = medição de plantio com `area`)
-const seedingArea = op => { const a = op?._measurement?.area; return (a && typeof a.value === 'number') ? a.value : 0; };
+// área plantada de uma operação de plantio (op._measurement vem de seedingMeasurement)
+const seedingArea = op => {
+  const a = op?._measurement?.area;
+  if (typeof a === 'number') return a;                       // formato novo (já resolvido)
+  return (a && typeof a.value === 'number') ? a.value : 0;   // formato bruto da API
+};
 
 // produtividade OFICIAL (col J do fechamento) por talhão, para um ano|cultura — usada como
 // "safra anterior" quando existe fechamento (em vez do sensor do OPC, que superestima).
@@ -438,6 +478,101 @@ function machineList(maqMap, crop) {
       ops: m.ops, ha: Number(m.area.toFixed(1)), status: 'concluido',
     }))
     .sort((a, b) => b.ha - a.ha);
+}
+
+// ─── Relatório de PLANTIO ───────────────────────────────────────────────
+// Estrutura paralela à da colheita (não mexe nela), keyed por SAFRA|cultura.
+function buildPlantio(perField, ref) {
+  const porYC = {};
+  for (const { field, ops } of perField)
+    for (const op of ops) {
+      if (op.fieldOperationType !== 'seeding' || !op.cropName || !op._measurement) continue;
+      const area = seedingArea(op);
+      if (area <= 0) continue;
+      const safra = safraDoPlantio(op, ops, op.cropName);
+      if (!safra) continue;
+      (porYC[safra + '|' + op.cropName] ||= []).push({ field, op, m: op._measurement, area });
+    }
+
+  const datasets = {}, anosMap = {};
+  const wAvg = (arr, campo) => { // média ponderada pela área plantada
+    const v = arr.filter(t => t[campo] > 0);
+    const a = v.reduce((s, t) => s + t.ha_plantado, 0);
+    return a ? v.reduce((s, t) => s + t[campo] * t.ha_plantado, 0) / a : null;
+  };
+
+  for (const [yc, itens] of Object.entries(porYC)) {
+    const [yr, crop] = yc.split('|');
+    const talhoes = itens.flatMap(({ field, op, m, area }) => {
+      const nome = field.name;
+      let comps;
+      if (ref[nome]) comps = [nome];
+      else { const ex = expandFieldName(nome).filter(c => ref[c]); comps = ex.length ? ex : [nome]; }
+      const somaHa = comps.reduce((s, c) => s + (ref[c]?.ha || 0), 0) || 1;
+      const mesclado = comps.length > 1 ? nome : null;
+      const variedade = normVar(m.variedades?.[0]?.nome) || '—';
+      return comps.map(c => {
+        const frac = mesclado ? ((ref[c]?.ha || 0) / somaHa) : 1;
+        return {
+          talhao: c, farm: ref[c]?.farm || 'Bakaba', variedade,
+          ha_plantado: Number((area * frac).toFixed(1)),
+          popReal: m.popReal != null ? Math.round(m.popReal) : null,
+          popAlvo: m.popAlvo != null ? Math.round(m.popAlvo) : null,
+          desvio: (m.popReal != null && m.popAlvo) ? Math.round(m.popReal - m.popAlvo) : null,
+          desvioPct: (m.popReal != null && m.popAlvo) ? Number(((m.popReal - m.popAlvo) / m.popAlvo * 100).toFixed(1)) : null,
+          velocidade: m.velocidade != null ? Number(m.velocidade.toFixed(1)) : null,
+          inicio: op.startDate ? op.startDate.slice(0, 10) : null,
+          fim: op.endDate ? op.endDate.slice(0, 10) : null,
+          mesclado,
+        };
+      });
+    });
+
+    const areaTotal = talhoes.reduce((s, t) => s + (t.ha_plantado || 0), 0);
+    const popMedia = wAvg(talhoes, 'popReal'), popAlvoMedia = wAvg(talhoes, 'popAlvo');
+    const velMedia = wAvg(talhoes, 'velocidade');
+
+    const vmap = {};
+    for (const t of talhoes) {
+      if (!t.variedade || t.variedade === '—') continue;
+      const v = (vmap[t.variedade] ||= { nome: t.variedade, area: 0, px: 0, pa: 0 });
+      v.area += t.ha_plantado;
+      if (t.popReal > 0) { v.px += t.popReal * t.ha_plantado; v.pa += t.ha_plantado; }
+    }
+    const variedades = Object.values(vmap)
+      .map(v => ({ nome: v.nome, area: Number(v.area.toFixed(1)), pop: v.pa ? Math.round(v.px / v.pa) : null }))
+      .sort((a, b) => b.area - a.area);
+
+    const evolMap = {};
+    for (const { op, area } of itens) {
+      const d = (op.endDate || op.startDate || '').slice(0, 10);
+      if (d) evolMap[d] = (evolMap[d] || 0) + area;
+    }
+    const evolucao = Object.keys(evolMap).sort()
+      .map(d => ({ d: d.slice(8, 10) + '/' + d.slice(5, 7), ha: Number(evolMap[d].toFixed(1)), meta: null }));
+
+    datasets[yc] = {
+      resumo: {
+        areaTotal: Number(areaTotal.toFixed(1)),
+        talhoesTotal: talhoes.length,
+        popMedia: popMedia != null ? Math.round(popMedia) : null,
+        popAlvoMedia: popAlvoMedia != null ? Math.round(popAlvoMedia) : null,
+        desvioPop: (popMedia != null && popAlvoMedia != null) ? Math.round(popMedia - popAlvoMedia) : null,
+        desvioPct: (popMedia != null && popAlvoMedia) ? Number(((popMedia - popAlvoMedia) / popAlvoMedia * 100).toFixed(1)) : null,
+        velocidadeMedia: velMedia != null ? Number(velMedia.toFixed(1)) : null,
+        variedades: variedades.map(v => v.nome),
+        fazendas: [...new Set(talhoes.map(t => t.farm))].filter(f => f && f !== '—'),
+      },
+      talhoes, variedades, evolucao, maquinas: [],
+      safraAnterior: String(Number(yr) - 1),
+    };
+    if (SEMEADURAS[yc]) enrichFrotaOpc(datasets[yc], SEMEADURAS[yc]);
+    (anosMap[yr] ||= []).push({ key: yc, crop, label: cropLabel(crop), talhoes: talhoes.length, area: datasets[yc].resumo.areaTotal });
+  }
+
+  const anos = Object.keys(anosMap).sort((a, b) => b.localeCompare(a))
+    .map(ano => ({ ano, culturas: anosMap[ano].sort((a, b) => b.area - a.area) }));
+  return { anos, datasets };
 }
 
 export function buildSnapshotFromJD(perField, orgId) {
@@ -610,6 +745,7 @@ export function buildSnapshotFromJD(perField, orgId) {
     fazenda: 'Fazenda Bakaba', orgId,
     atualizado: new Date().toLocaleDateString('pt-BR'),
     anos, datasets, operacoes,
+    plantio: buildPlantio(perField, ref), // relatório de Plantio (por safra)
     maquinas: machineList(maqMap, null),
   };
 }

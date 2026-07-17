@@ -23,27 +23,36 @@ def norm(s):
     return re.sub(r'\s+', ' ', s).strip().lower()
 
 
-# cabeçalho (normalizado) -> chave interna
+# cabeçalho (normalizado) -> chave interna.
+# Serve para os dois exports do OPC: "Colheita" e "Semeadura" (mudam os nomes de
+# algumas colunas; a Semeadura não tem Umidade — no plantio não há umidade de grão).
 COLS = {
     'talhoes': 'talhao',
     'nome da maquina': 'apelido',
     'equipamento': 'vin',
     'operadores': 'operador',
+    'variedades': 'variedade',
     'tipo de cultura': 'cultura',
-    'area colhida': 'area',
-    'umidade': 'umidade',
-    'tempo de colheita': 'tempo',      # segundos
+    'area colhida': 'area',            # export Colheita
+    'area semeada': 'area',            # export Semeadura
+    'umidade': 'umidade',              # só na Colheita (opcional)
+    'tempo de colheita': 'tempo',      # segundos — export Colheita
+    'tempo de semeadura': 'tempo',     # segundos — export Semeadura
     'velocidade': 'velocidade',        # km/h
     'combustivel total': 'combustivel',  # litros
 }
+OBRIGATORIAS = {'talhao', 'apelido', 'vin', 'operador', 'cultura', 'area', 'tempo', 'velocidade', 'combustivel'}
 
 
-def ca_from_apelido(ap):
-    """'CA S790 10' -> 'CA10' ; 'CA S770 21' -> 'CA21'. Sem número, devolve o apelido."""
+def nome_maquina(ap):
+    """Colheitadeira: 'CA S790 10' -> 'CA10' (numeração de frota, única).
+    Demais (tratores/plantadeiras): mantém o apelido — 'TR 8R 01' e 'TR 9R 01' são
+    máquinas DIFERENTES com o mesmo número, então encurtar para 'TR01' colidiria."""
+    ap = str(ap or '').strip()
     if not ap:
         return None
-    m = re.search(r'(\d+)\s*$', str(ap).strip())
-    return 'CA%02d' % int(m.group(1)) if m else str(ap).strip()
+    m = re.match(r'^CA\b.*?(\d+)\s*$', ap, re.I)
+    return 'CA%02d' % int(m.group(1)) if m else ap
 
 
 # Faixa plausível de umidade de grão. O export traz muitas leituras inválidas:
@@ -70,7 +79,7 @@ def parse(xlsx_path):
         k = COLS.get(norm(h))
         if k and k not in idx.values():
             idx[j] = k
-    faltando = set(COLS.values()) - set(idx.values())
+    faltando = OBRIGATORIAS - set(idx.values())
     if faltando:
         raise SystemExit('Colunas ausentes na planilha: %s' % ', '.join(sorted(faltando)))
 
@@ -78,7 +87,7 @@ def parse(xlsx_path):
         'area': 0.0, 'tempo': 0.0, 'comb': 0.0,
         'umid_x_area': 0.0, 'area_umid': 0.0,     # umidade só sobre linhas com leitura válida
         'vel_x_tempo': 0.0, 'tempo_vel': 0.0,     # idem p/ velocidade
-        'ops': 0, 'apelido': None, 'vin': None,
+        'ops': 0, 'apelido': None, 'vins': set(),
         'op_area': defaultdict(float), 'talhoes': set(),
     })
     por_operador = defaultdict(lambda: {'area': 0.0, 'talhoes': set(), 'tempo': 0.0, 'comb': 0.0})
@@ -106,11 +115,14 @@ def parse(xlsx_path):
                 o['talhoes'].add(str(d['talhao']).strip())
 
         vin = d.get('vin')
-        if not vin_valido(vin):           # 'Máquina Desconhecida', 'CA S670 CONFG'...
-            ignorado[str(d.get('apelido') or vin or '?').strip()] += area
+        apelido = str(d.get('apelido') or '').strip()
+        if not vin_valido(vin) or not apelido:  # 'Máquina Desconhecida', 'CA S670 CONFG'...
+            ignorado[apelido or str(vin or '?').strip()] += area
             continue
 
-        m = por_maq[str(vin).strip()]
+        # agrupa pelo APELIDO (nome de frota): a mesma máquina pode aparecer com dois
+        # formatos de VIN (ex.: 'TR 7230j 06' = 1BM7230JVJH002285 e BM7230J002285).
+        m = por_maq[apelido]
         m['area'] += area
         m['tempo'] += tempo
         m['comb'] += comb
@@ -123,8 +135,8 @@ def parse(xlsx_path):
             m['vel_x_tempo'] += v * tempo
             m['tempo_vel'] += tempo
         m['ops'] += 1
-        m['apelido'] = m['apelido'] or d.get('apelido')
-        m['vin'] = str(vin).strip()
+        m['apelido'] = apelido
+        m['vins'].add(str(vin).strip())
         if op and op != '---':
             m['op_area'][op] += area
         if d.get('talhao'):
@@ -133,13 +145,13 @@ def parse(xlsx_path):
     wb.close()
 
     maquinas = []
-    for vin, m in por_maq.items():
+    for apelido, m in por_maq.items():
         hrs = m['tempo'] / 3600.0
         dominante = max(m['op_area'].items(), key=lambda x: x[1])[0] if m['op_area'] else None
         maquinas.append({
-            'maq': ca_from_apelido(m['apelido']),
-            'apelido': m['apelido'],
-            'vin': vin,
+            'maq': nome_maquina(apelido),
+            'apelido': apelido,
+            'vin': max(m['vins'], key=len) if m['vins'] else None,  # prefere o VIN completo
             'operador': dominante,
             'operadores': sorted(m['op_area'], key=m['op_area'].get, reverse=True),
             'ops': m['ops'],

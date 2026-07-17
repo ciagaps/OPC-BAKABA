@@ -1,0 +1,232 @@
+{
+ "culturas": [
+  "Feijões Moyashi"
+ ],
+ "maquinas": [
+  {
+   "maq": "TR 9RX 04",
+   "apelido": "TR 9RX 04",
+   "vin": "1RW9540DLNJ820516",
+   "operador": "Marcio costa",
+   "operadores": [
+    "Marcio costa",
+    "Sidiney Batista",
+    "Franklin santos",
+    "Leandro barbosa."
+   ],
+   "ops": 32,
+   "talhoes": 21,
+   "ha": 1709.0,
+   "haHr": 17.5,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 3.9,
+   "lh": 67.5,
+   "velocidade": 8.4,
+   "horas": 97.9,
+   "combustivel": 6607.6
+  },
+  {
+   "maq": "TR 9RX 05",
+   "apelido": "TR 9RX 05",
+   "vin": "1RW9640DCPJ822438",
+   "operador": "Leandro barbosa.",
+   "operadores": [
+    "Leandro barbosa.",
+    "John Lenno Santos",
+    "Sidiney Batista",
+    "Grasiely santos",
+    "Dheyse Ferreira",
+    "Igor Abreu"
+   ],
+   "ops": 26,
+   "talhoes": 15,
+   "ha": 1319.6,
+   "haHr": 20.9,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 3.5,
+   "lh": 72.6,
+   "velocidade": 8.1,
+   "horas": 63.1,
+   "combustivel": 4582.1
+  },
+  {
+   "maq": "TR 9R 02",
+   "apelido": "TR 9R 02",
+   "vin": "1RW9640DCNA075803",
+   "operador": "Genilson",
+   "operadores": [
+    "Genilson",
+    "Rafael Matias"
+   ],
+   "ops": 25,
+   "talhoes": 15,
+   "ha": 1244.6,
+   "haHr": 17.8,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 3.5,
+   "lh": 61.6,
+   "velocidade": 8.5,
+   "horas": 70.1,
+   "combustivel": 4315.4
+  },
+  {
+   "maq": "TR 8R 01",
+   "apelido": "TR 8R 01",
+   "vin": "1BM8400RPNS101159",
+   "operador": "Franklin santos",
+   "operadores": [
+    "Franklin santos",
+    "Grasiely santos",
+    "Dheyse Ferreira"
+   ],
+   "ops": 21,
+   "talhoes": 13,
+   "ha": 571.7,
+   "haHr": 10.3,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.4,
+   "lh": 45.9,
+   "velocidade": 9.0,
+   "horas": 55.3,
+   "combustivel": 2543.0
+  },
+  {
+   "maq": "TR 8R 02",
+   "apelido": "TR 8R 02",
+   "vin": "1BM8400RCNS101031",
+   "operador": "Igor Abreu",
+   "operadores": [
+    "Igor Abreu",
+    "Dheyse Belem",
+    "Dheyse Ferreira",
+    "Grasiely santos",
+    "Dhonatan alves"
+   ],
+   "ops": 18,
+   "talhoes": 9,
+   "ha": 431.3,
+   "haHr": 11.3,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.1,
+   "lh": 46.6,
+   "velocidade": 9.7,
+   "horas": 38.3,
+   "combustivel": 1787.1
+  },
+  {
+   "maq": "TR 9R 03",
+   "apelido": "TR 9R 03",
+   "vin": "1RW9640DKNA075787",
+   "operador": "Rafael Matias",
+   "operadores": [
+    "Rafael Matias",
+    "Genilson",
+    "Dheyse Ferreira"
+   ],
+   "ops": 4,
+   "talhoes": 3,
+   "ha": 118.5,
+   "haHr": 17.4,
+   "umidade": null,
+   "umidCobertura": 0,
+   "lha": 4.0,
+   "lh": 70.0,
+   "velocidade": 8.7,
+   "horas": 6.8,
+   "combustivel": 475.2
+  }
+ ],
+ "operadores": [
+  {
+   "operador": "Marcio costa",
+   "ha": 1025.6,
+   "talhoes": 17,
+   "haHr": 17.0,
+   "lh": 68.8
+  },
+  {
+   "operador": "Genilson",
+   "ha": 707.8,
+   "talhoes": 15,
+   "haHr": 17.5,
+   "lh": 60.7
+  },
+  {
+   "operador": "Leandro barbosa.",
+   "ha": 688.5,
+   "talhoes": 10,
+   "haHr": 20.7,
+   "lh": 74.0
+  },
+  {
+   "operador": "Sidiney Batista",
+   "ha": 681.7,
+   "talhoes": 14,
+   "haHr": 19.5,
+   "lh": 64.1
+  },
+  {
+   "operador": "Rafael Matias",
+   "ha": 651.5,
+   "talhoes": 13,
+   "haHr": 18.0,
+   "lh": 64.2
+  },
+  {
+   "operador": "John Lenno Santos",
+   "ha": 433.3,
+   "talhoes": 7,
+   "haHr": 20.2,
+   "lh": 69.7
+  },
+  {
+   "operador": "Franklin santos",
+   "ha": 363.8,
+   "talhoes": 13,
+   "haHr": 12.5,
+   "lh": 55.6
+  },
+  {
+   "operador": "Igor Abreu",
+   "ha": 271.1,
+   "talhoes": 10,
+   "haHr": 11.4,
+   "lh": 46.5
+  },
+  {
+   "operador": "Grasiely santos",
+   "ha": 257.0,
+   "talhoes": 11,
+   "haHr": 11.7,
+   "lh": 50.7
+  },
+  {
+   "operador": "Dheyse Ferreira",
+   "ha": 190.2,
+   "talhoes": 8,
+   "haHr": 10.1,
+   "lh": 43.2
+  },
+  {
+   "operador": "Dheyse Belem",
+   "ha": 124.4,
+   "talhoes": 5,
+   "haHr": 11.2,
+   "lh": 47.5
+  },
+  {
+   "operador": "Dhonatan alves",
+   "ha": 0.0,
+   "talhoes": 1,
+   "haHr": 12.6,
+   "lh": 50.3
+  }
+ ],
+ "totalHa": 5394.7,
+ "semMaquina": {}
+}

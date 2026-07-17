@@ -80,14 +80,31 @@ export async function harvestMeasurement(op) {
   return (data.values || []).find(v => v.measurementName === 'HarvestYieldResult') || null;
 }
 
-// Medições de uma operação de PLANTIO: devolve a primeira medição que traz área
-// (ex.: SeedingVarietiesResult / SeedingRateResult) → usamos o campo `area` como área plantada.
+// Medições de uma operação de PLANTIO. Devolve o que interessa já resolvido:
+// área, sementes, população REALIZADA (SeedingRateResult) x ALVO (SeedingRateTarget),
+// velocidade e as variedades semeadas (com área de cada).
 export async function seedingMeasurement(op) {
   const link = (op.links || []).find(l => l.rel === 'measurementTypes');
   if (!link) return null;
   const data = await jdGet(link.uri).catch(() => null);
   if (!data) return null;
-  return (data.values || []).find(v => v.area && typeof v.area.value === 'number') || null;
+  const vals = data.values || [];
+  const by = n => vals.find(v => v.measurementName === n);
+  const res = by('SeedingRateResult') || by('SeedingVarietiesResult') || vals.find(v => v.area);
+  if (!res) return null;
+  const tgt = by('SeedingRateTarget') || by('SeedingVarietiesTarget');
+  const spd = by('SeedingSpeedResult');
+  const g = o => (o && typeof o.value === 'number') ? o.value : null;
+  return {
+    area: g(res.area),
+    totalSementes: g(res.totalMaterial),
+    popReal: g(res.averageMaterial),   // sementes/ha realizada
+    popAlvo: g(tgt && tgt.averageMaterial), // sementes/ha planejada
+    velocidade: g(spd && spd.averageSpeed),
+    variedades: (res.varietyTotals || [])
+      .map(v => ({ nome: v.name, area: g(v.area), pop: g(v.averageMaterial) }))
+      .filter(v => v.nome),
+  };
 }
 
 export { jdGet, getAllPages };
