@@ -26,6 +26,42 @@ body{background:
   color:var(--ink);font-family:'Archivo',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
 
+/* ─── Barra lateral de relatórios ─── */
+.sidenav{position:fixed;top:0;left:0;bottom:0;width:206px;z-index:20;background:linear-gradient(180deg,var(--panel),var(--bg2));
+  border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+.sidenav-logo{height:34px;margin:0 6px 18px;object-fit:contain;object-position:left;visibility:hidden}
+.sidenav-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);margin:8px 8px 6px}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:10px;cursor:pointer;
+  border:1px solid transparent;background:transparent;color:var(--ink-dim);font:600 13.5px/1.2 'Archivo',sans-serif;transition:.15s}
+.nav-btn:hover{background:rgba(168,208,90,.08);color:var(--ink)}
+.nav-btn.on{background:var(--amber);color:#1a1206;border-color:var(--amber);font-weight:700}
+.nav-btn .ic{font-size:15px;line-height:1}
+.nav-btn .n{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.75}
+.nav-btn:disabled{opacity:.38;cursor:not-allowed}
+.nav-foot{margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-dim);padding:10px 8px;line-height:1.6;border-top:1px solid var(--line)}
+body.hasnav .wrap{margin-left:206px;max-width:1180px}
+/* No relatório de Plantio, esconde as seções que só fazem sentido na colheita */
+body[data-rel="plantio"] #sec-comparativo,
+body[data-rel="plantio"] #panel-varchart,
+body[data-rel="plantio"] .progress-wrap,
+body[data-rel="plantio"] .legbar,
+body[data-rel="plantio"] .legscale,
+body[data-rel="plantio"] #statusFilterGroup,
+body[data-rel="plantio"] #statusLegend{display:none}
+body[data-rel="plantio"] .grid2{grid-template-columns:1fr}
+/* legenda de variedades (só no plantio) */
+#varLegend{display:none;flex-direction:column;gap:7px;margin-top:4px}
+body[data-rel="plantio"] #varLegend{display:flex}
+#varLegend .vl{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim)}
+#varLegend .vl span{width:14px;height:14px;border-radius:3px;flex:none}
+@media(max-width:900px){
+  .sidenav{position:sticky;top:0;left:auto;bottom:auto;width:auto;flex-direction:row;align-items:center;gap:8px;
+    padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .sidenav-logo,.sidenav-lbl,.nav-foot{display:none}
+  .nav-btn{width:auto;white-space:nowrap;padding:8px 12px}
+  body.hasnav .wrap{margin-left:0;max-width:1240px}
+}
+
 header.hero{padding:56px 0 34px}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 .brand-logo{height:74px;width:auto;display:block;margin:0 0 22px;background:#fff;padding:11px 16px;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35)}
@@ -199,7 +235,22 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
 <body>
 
 <div id="mapTooltip"></div>
+<!-- Barra lateral: navega entre os relatórios (o painel é um arquivo só) -->
+<aside class="sidenav" id="sidenav">
+  <img class="sidenav-logo" id="navLogo" alt="GAPS Agronegócios">
+  <div class="sidenav-lbl">Relatórios</div>
+  <button class="nav-btn on" id="nav-colheita" onclick="setRelatorio('colheita')"><span class="ic">🌾</span> Colheita</button>
+  <button class="nav-btn" id="nav-plantio" onclick="setRelatorio('plantio')"><span class="ic">🌱</span> Plantio</button>
+  <button class="nav-btn" id="nav-aplicacao" disabled title="Em breve"><span class="ic">💧</span> Aplicação</button>
+  <div class="nav-foot">
+    FAZENDA BAKABA<br>Atualiza sozinho a cada 10 min<br>
+    <span id="nav-upd" style="color:var(--lime)">—</span>
+  </div>
+</aside>
+
 <div class="wrap">
+
+<div id="viewColheita">
 
 <header class="hero">
   <div class="hero-top">
@@ -217,7 +268,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
   <p class="sub">Painel alimentado pelo John Deere Operations Center: produtividade por talhão nas unidades BKB, NSA e SGD, por ano e cultura.</p>
   <div class="sel-row"><span class="sel-lbl">Ano</span><div class="crop-select" id="yearChips"></div></div>
   <div class="sel-row"><span class="sel-lbl">Cultura</span><div class="crop-select" id="cropChips"></div></div>
-  <div class="hero-meta">
+  <div class="hero-meta" id="heroMeta">
     <div>FAZENDAS <b id="hm-faz">—</b></div>
     <div>TALHÕES <b id="hm-talhoes">—</b></div>
     <div>ÁREA TOTAL <b id="hm-area">—</b> ha</div>
@@ -231,7 +282,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
     <div class="progress-label"><span>Progresso da colheita &nbsp;·&nbsp; <span id="pg-falta" style="color:var(--amber)">—</span></span><span><b id="pg-pct">—</b> &nbsp;·&nbsp; <span id="pg-txt">—</span></span></div>
     <div class="progress-track"><div class="progress-fill" id="pg-fill" style="width:0"></div></div>
   </div>
-  <div class="kpis">
+  <div class="kpis" id="kpiRow">
     <div class="kpi"><div class="v" id="k-prod">—</div><div class="u">sc/ha</div><div class="l">Produtividade média</div></div>
     <div class="kpi"><div class="v" id="k-prod-ant">—</div><div class="u" id="k-prod-ant-u">t</div><div class="l" id="k-prod-ant-l">Massa colhida</div></div>
     <div class="kpi" id="k-var-box"><div class="v" id="k-var">—</div><div class="u" id="k-var-u">talhões</div><div class="l" id="k-var-l">Talhões colhidos</div></div>
@@ -242,15 +293,16 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
 
 <!-- MAPA -->
 <section>
-  <div class="sec-head reveal"><h2>Mapa de <span>Produtividade</span></h2>
+  <div class="sec-head reveal"><h2 id="h-mapa">Mapa de <span>Produtividade</span></h2>
     <p>Passe o mouse (ou toque) em qualquer talhão para ver os detalhes. Use os filtros para destacar variedades ou status.</p></div>
   <div class="panel reveal">
     <div class="map-layout">
       <div class="map-stage"><svg id="mapSvg" viewBox="0 0 820 680" xmlns="http://www.w3.org/2000/svg"></svg></div>
       <div class="map-side">
-        <div class="legend-title">Produtividade · sc/ha</div>
+        <div class="legend-title" id="legTitle">Produtividade · sc/ha</div>
         <div class="legbar"></div>
         <div class="legscale"><span>0</span><span id="leg-mid">55</span><span id="leg-max">110</span></div>
+        <div id="varLegend"></div>
         <div class="map-filter-group" style="margin-top:18px">
           <div class="map-filter-label">Fazenda</div>
           <div class="chip-row" id="farmChips"></div>
@@ -259,7 +311,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
           <div class="map-filter-label">Variedade</div>
           <div class="chip-row" id="varChips"></div>
         </div>
-        <div class="map-filter-group">
+        <div class="map-filter-group" id="statusFilterGroup">
           <div class="map-filter-label">Status</div>
           <div class="chip-row" id="statusChips">
             <span class="chip on" data-status="all">Todos</span>
@@ -268,7 +320,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
             <span class="chip" data-status="Pendente">Pendente</span>
           </div>
         </div>
-        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim);display:flex;flex-direction:column;gap:7px">
+        <div id="statusLegend" style="margin-top:auto;padding-top:16px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim);display:flex;flex-direction:column;gap:7px">
           <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:3px;background:#1e3020;display:inline-block;border:1px solid #2a4233"></span>Pendente</div>
           <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:3px;background:#3a2a0a;display:inline-block;border:1px solid #5a4010"></span>Em andamento</div>
           <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(90deg,#c06a2e,#a8d05a);display:inline-block"></span>Finalizado (produt.)</div>
@@ -279,7 +331,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
 </section>
 
 <!-- COMPARATIVO -->
-<section>
+<section id="sec-comparativo">
   <div class="sec-head reveal"><h2>Comparativo <span>por Talhão</span></h2>
     <p>Produtividade de cada talhão no ano selecionado contra o ano anterior (mesmo talhão), em sc/ha.</p></div>
   <div class="panel chart-card reveal">
@@ -348,7 +400,7 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
 <!-- GRÁFICOS -->
 <section>
   <div class="grid2">
-    <div class="panel chart-card reveal"><h3>Produtividade por variedade</h3><div class="note">Média ponderada de sc/ha no ano selecionado.</div><div class="chart-box"><canvas id="varChart"></canvas></div></div>
+    <div class="panel chart-card reveal" id="panel-varchart"><h3>Produtividade por variedade</h3><div class="note">Média ponderada de sc/ha no ano selecionado.</div><div class="chart-box"><canvas id="varChart"></canvas></div></div>
     <div class="panel chart-card reveal"><h3>Evolução diária</h3><div class="note">Hectares colhidos por dia · linha de meta.</div><div class="chart-box"><canvas id="evolChart"></canvas></div></div>
   </div>
 </section>
@@ -364,14 +416,14 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
   <div class="sec-head reveal"><h2>Detalhamento <span>por Talhão</span></h2>
     <input class="search" id="tSearch" placeholder="filtrar talhão…" oninput="filterTable()"></div>
   <div class="panel reveal"><div class="cyc-wrap"><table class="cyc">
-    <thead><tr><th>Talhão</th><th>Variedade</th><th>Status</th><th>Área</th><th>Colhido</th><th>Atual</th><th>Anterior</th><th>Δ</th></tr></thead>
+    <thead id="tHead"><tr><th>Talhão</th><th>Variedade</th><th>Status</th><th>Área</th><th>Colhido</th><th>Atual</th><th>Anterior</th><th>Δ</th></tr></thead>
     <tbody id="tBody"></tbody>
   </table></div></div>
 </section>
 
 <!-- FROTA -->
 <section>
-  <div class="sec-head reveal"><h2>Frota de <span>Colheitadeiras</span></h2>
+  <div class="sec-head reveal"><h2 id="h-frota">Frota de <span>Colheitadeiras</span></h2>
     <p>Área realizada e status de cada máquina.</p></div>
   <div class="maq-grid reveal" id="maqGrid"></div>
 </section>
@@ -387,6 +439,10 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
   </table></div></div>
   <div style="text-align:center;color:var(--ink-dim);font-size:12px;margin-top:12px;font-family:'JetBrains Mono',monospace"><b id="opCount">0</b> operações (mostrando até 400 mais recentes)</div>
 </section>
+
+</div><!-- /viewColheita -->
+
+<!-- (relatório de plantio agora é renderizado no mesmo DOM, via barra lateral) -->
 
 <footer>
   <div>FAZENDA BAKABA · COLHEITA SOJA 25/26 · painel ao vivo John Deere Operations Center</div>
@@ -427,12 +483,14 @@ const tooltip=document.getElementById('mapTooltip');
 let mapFilter={farm:'all',var:'all',status:'all'};
 function buildMap(){
   const svg=document.getElementById('mapSvg'); if(!GEO) return; svg.innerHTML='';
+  const P=isPlantio();
   GEO.forEach(feat=>{
     const t=byName[feat.name]||byName[normName(feat.name)];
-    const status=t?t.status:'nao_plantado', produtiv=t?t.produtiv:0; // sem talhão no dataset = não plantado c/ esta cultura
+    const status=t?(t.status||'plantado'):'nao_plantado', produtiv=t?t.produtiv:0;
     const farm=feat.farm||(t&&t.farm)||'Bakaba';
+    const fill = P ? (t?varColor(t.variedade):'#141d0c') : prodColor(produtiv,status);
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d',feat.d); path.setAttribute('fill',prodColor(produtiv,status)); path.setAttribute('class','poly');
+    path.setAttribute('d',feat.d); path.setAttribute('fill',fill); path.setAttribute('class','poly');
     path.dataset.name=feat.name; path.dataset.farm=farm; path.dataset.var=t?t.variedade:''; path.dataset.status=status;
     path.addEventListener('mouseenter',e=>{showTip(e,feat.name,t,farm);path.classList.add('sel');});
     path.addEventListener('mousemove',moveTip);
@@ -460,6 +518,22 @@ function applyMapFilter(){document.querySelectorAll('.poly').forEach(p=>{
   const sM=mapFilter.status==='all'||p.dataset.status===mapFilter.status;
   p.classList.toggle('dimmed',!(fM&&vM&&sM));});}
 function showTip(e,name,t,farm){
+  if(isPlantio()){
+    if(!t){tooltip.innerHTML=`<div class="tt-name">${name}</div><div class="tt-farm">${farm||'—'}</div><div style="color:var(--ink-dim);font-size:12px;margin-top:8px">Sem plantio de ${cropLbl()} nesta safra</div>`;}
+    else{const dCls=(t.desvioPct||0)>=0?'up':'dn';
+      tooltip.innerHTML=`<div class="tt-name">${t.talhao}</div><div class="tt-farm">${t.farm||farm||'—'}</div>
+        <span class="tt-var" style="background:${varColor(t.variedade)};color:#10160a">${t.variedade}</span>
+        <div class="tt-prod">${fmt0(t.popReal)}<small>sem/ha realizada</small></div>
+        ${t.desvioPct!=null?`<span class="tt-delta ${dCls}">${t.desvioPct>=0?'+':''}${fmt(t.desvioPct)}% vs alvo</span>`:''}
+        <div style="margin-top:10px">
+          <div class="tt-row"><span>População alvo</span><b>${t.popAlvo!=null?fmt0(t.popAlvo)+' sem/ha':'—'}</b></div>
+          <div class="tt-row"><span>Área plantada</span><b>${fmt(t.ha_plantado)} ha</b></div>
+          <div class="tt-row"><span>Velocidade</span><b>${t.velocidade!=null?fmt(t.velocidade)+' km/h':'—'}</b></div>
+          <div class="tt-row"><span>Plantio</span><b>${t.inicio||'—'}</b></div>
+          ${t.mesclado?`<div class="tt-row"><span>Campo OPC</span><b style="font-size:10px">${t.mesclado}</b></div>`:''}
+        </div>`;}
+    moveTip(e); tooltip.classList.add('show'); return;
+  }
   if(!t){tooltip.innerHTML=`<div class="tt-name">${name}</div><div class="tt-farm">${farm||'—'}</div><div style="color:var(--ink-dim);font-size:12px;margin-top:8px">Sem plantio de ${cropLbl()} neste ano</div>`;}
   else{const stCls=t.status==='Finalizado'?'col':t.status==='Andamento'?'and':'pend';const difCls=t.dif>=0?'up':'dn';
     const prodLine=t.produtiv>0?`<div class="tt-prod">${fmt(t.produtiv)}<small>sc/ha · ${activeYear||''}</small></div>`:`<div class="tt-prod" style="font-size:16px;color:var(--ink-dim)">${t.status==='Pendente'?'Aguardando colheita':'Sem dado de rendimento'}</div>`;
@@ -492,6 +566,8 @@ function setupChips(id,key){document.getElementById(id).querySelectorAll('.chip'
 function cropLbl(){return (curYear().culturas.find(c=>c.key===activeCrop)||{}).label||'Colheita';}
 function setLbl(id,txt){const e=document.getElementById(id);if(e)e.textContent=txt;}
 function renderHero(){const r=ACTIVE.resumo;
+  // restaura os KPIs/hero-meta da colheita (o plantio pode tê-los reescrito)
+  if(!document.getElementById('k-prod')){document.getElementById('kpiRow').innerHTML=KPI_ROW_HTML;document.getElementById('heroMeta').innerHTML=HERO_META_HTML;}
   document.getElementById('cropTitle').textContent=cropLbl();
   setLbl('yearTitle', activeYear&&activeYear!=='—'?activeYear:'');
   setLbl('hm-faz',(r.fazendas||[]).length);
@@ -643,7 +719,23 @@ function renderVarGrid(){const v=varAgg();const max=Math.max(1,...v.map(x=>x.pro
     <div class="vbar"><i style="width:${(x.prod/max*100).toFixed(0)}%"></i></div></div>`).join('');}
 
 // ---- TABELA ----
-function renderTable(){document.getElementById('tBody').innerHTML=ACTIVE.talhoes.map(t=>{
+function renderTable(){
+  if(isPlantio()){
+    document.getElementById('tHead').innerHTML='<tr><th>Talhão</th><th>Variedade</th><th>Área</th><th>Pop. real</th><th>Pop. alvo</th><th>Desvio</th><th>Veloc.</th><th>Plantio</th></tr>';
+    document.getElementById('tBody').innerHTML=ACTIVE.talhoes.map(t=>{
+      const dCls=(t.desvioPct||0)>=0?'up':'dn';
+      return `<tr data-n="${t.talhao.toLowerCase()}"><td class="tname mono">${t.talhao}</td>
+        <td><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${varColor(t.variedade)};margin-right:6px"></span>${t.variedade}</td>
+        <td class="mono">${fmt(t.ha_plantado)}</td>
+        <td class="mono">${t.popReal!=null?fmt0(t.popReal):'—'}</td>
+        <td class="mono">${t.popAlvo!=null?fmt0(t.popAlvo):'—'}</td>
+        <td>${t.desvioPct!=null?`<span class="delta ${dCls}">${t.desvioPct>=0?'+':''}${fmt(t.desvioPct)}%</span>`:'—'}</td>
+        <td class="mono">${t.velocidade!=null?fmt(t.velocidade):'—'}</td>
+        <td class="mono" style="font-size:11px">${t.inicio||'—'}</td></tr>`;}).join('');
+    return;
+  }
+  document.getElementById('tHead').innerHTML='<tr><th>Talhão</th><th>Variedade</th><th>Status</th><th>Área</th><th>Colhido</th><th>Atual</th><th>Anterior</th><th>Δ</th></tr>';
+  document.getElementById('tBody').innerHTML=ACTIVE.talhoes.map(t=>{
   const stCls=t.status==='Finalizado'?'col':t.status==='Andamento'?'and':'pend';
   const dCls=t.dif>=0?'up':'dn';
   return `<tr data-n="${t.talhao.toLowerCase()}"><td class="tname mono">${t.talhao}</td><td>${t.variedade}</td>
@@ -656,15 +748,15 @@ function filterTable(){const q=document.getElementById('tSearch').value.toLowerC
   document.querySelectorAll('#tBody tr').forEach(tr=>tr.style.display=(!q||tr.dataset.n.includes(q))?'':'none');}
 
 // ---- FROTA ----
-function renderMaq(){const m=ACTIVE.maquinas||[];
+function renderMaq(){const m=ACTIVE.maquinas||[];const P=isPlantio();
   const linha=(rot,val)=>`<div class="maq-stat"><span>${rot}</span><b>${val}</b></div>`;
   document.getElementById('maqGrid').innerHTML=[...m].slice(0,32).map((d,i)=>`
     <div class="maq-card ${i===0?'gold':''}"><div class="maq-name">🚜 ${maqName(d)}${i===0?' 🏆':''}</div>
       <div class="maq-badge">${d.op||((d.operadores&&d.operadores.length>1)?d.operadores.length+' operadores':'—')}</div>
       ${linha('Operador', d.op||'—')}
-      ${linha('Área colhida', fmt(d.ha)+' ha')}
+      ${linha(P?'Área plantada':'Área colhida', fmt(d.ha)+' ha')}
       ${linha('Rendimento', d.haHr!=null?fmt(d.haHr)+' ha/h':'—')}
-      ${linha('Umidade', d.umidade!=null?fmt(d.umidade)+' %':'—')}
+      ${P?'':linha('Umidade', d.umidade!=null?fmt(d.umidade)+' %':'—')}
       ${linha('Consumo', d.lha!=null?fmt(d.lha)+' l/ha':'—')}
       ${linha('Consumo', d.lh!=null?fmt(d.lh)+' l/h':'—')}
       ${linha('Velocidade', d.velocidade!=null?fmt(d.velocidade)+' km/h':'—')}
@@ -696,11 +788,73 @@ function renderOperacoes(){
 function reveal(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.08});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));}
 
+// ═══════════ NAVEGAÇÃO ENTRE RELATÓRIOS (Colheita / Plantio) ═══════════
+let RELATORIO='colheita';
+const isPlantio=()=>RELATORIO==='plantio';
+const curSnap=()=> isPlantio() ? ((SNAP&&SNAP.plantio)||{anos:[],datasets:{}}) : SNAP;
+function setRelatorio(m){
+  if(m===RELATORIO||!SNAP) return;
+  RELATORIO=m; activeYear=null; activeCrop=null;
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+  const nb=document.getElementById('nav-'+m); if(nb) nb.classList.add('on');
+  document.body.dataset.rel=m;
+  normalizeSnap(); renderSelectors(); applyActive(true); window.scrollTo(0,0);
+}
+// templates originais da colheita (o plantio reescreve hero-meta e KPIs; restauramos ao voltar)
+const HERO_META_HTML=document.getElementById('heroMeta').innerHTML;
+const KPI_ROW_HTML=document.getElementById('kpiRow').innerHTML;
+// paleta categórica: cada variedade uma cor estável dentro do dataset
+const VAR_PAL=['#e8a030','#a8d05a','#5fa05a','#7fc77a','#6db3d0','#d9b25a','#c06a2e','#b57fd0','#3f8f4c','#ffca28','#c85a5a','#5ac88f','#8d6e3a','#d0b06d'];
+let _varColor={};
+function varColor(nome){ if(!nome||nome==='—') return '#243018';
+  if(_varColor[nome]==null) _varColor[nome]=VAR_PAL[Object.keys(_varColor).length%VAR_PAL.length];
+  return _varColor[nome]; }
+
+// ── HERO do plantio (reescreve hero-meta + KPIs) ──
+function renderHeroPlantio(){const r=ACTIVE.resumo;
+  document.getElementById('cropTitle').textContent=cropLbl();
+  setLbl('yearTitle', activeYear&&activeYear!=='—'?activeYear:'');
+  const dv=(r.desvioPct!=null)?((r.desvioPct>=0?'+':'')+fmt(r.desvioPct)+'%'):'—';
+  document.getElementById('heroMeta').innerHTML=
+    `<div>FAZENDAS <b>${(r.fazendas||[]).length}</b></div>`+
+    `<div>TALHÕES <b>${r.talhoesTotal||'—'}</b></div>`+
+    `<div>ÁREA PLANTADA <b>${fmt(r.areaTotal)}</b> ha</div>`+
+    `<div>VARIEDADES <b>${(r.variedades||[]).length}</b></div>`+
+    `<div>ATUALIZADO <b>${SNAP.atualizado||'—'}</b></div>`;
+  document.getElementById('kpiRow').innerHTML=
+    kpi(fmt0(r.popMedia),'sem/ha','População média')+
+    kpi(fmt0(r.popAlvoMedia),'sem/ha','População alvo')+
+    kpi(dv,'',(r.desvioPct>=0?'acima':'abaixo')+' do alvo','kpi '+((r.desvioPct||0)>=0?'good':'bad'))+
+    kpi(fmt(r.areaTotal),'ha','Área plantada')+
+    kpi(fmt(r.velocidadeMedia),'km/h','Velocidade média');
+}
+function kpi(v,u,l,cls){return `<div class="${cls||'kpi'}"><div class="v">${v}</div><div class="u">${u}</div><div class="l">${l}</div></div>`;}
+
+// var grid do plantio (área + população por variedade)
+function renderVarGridPlantio(){const v=(ACTIVE.variedades||[]);const max=Math.max(1,...v.map(x=>x.pop||0));
+  document.getElementById('varGrid').innerHTML=v.map(x=>`<div class="var-card"><div class="vn"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${varColor(x.nome)};margin-right:6px"></span>${x.nome}</div>
+    <div class="vp">${fmt0(x.pop)}</div><div class="vmeta">sem/ha · ${fmt(x.area)} ha</div>
+    <div class="vbar"><i style="width:${((x.pop||0)/max*100).toFixed(0)}%;background:${varColor(x.nome)}"></i></div></div>`).join('');}
+
+// legenda de variedades no mapa
+function renderVarLegend(){const v=(ACTIVE.variedades||[]).slice(0,14);
+  document.getElementById('varLegend').innerHTML=v.map(x=>`<div class="vl"><span style="background:${varColor(x.nome)}"></span>${x.nome} <b style="color:var(--ink);margin-left:auto">${fmt(x.area)} ha</b></div>`).join('');}
+
 function renderAll(){
-  const mx=scaleMax(); setLbl('leg-mid',Math.round(mx/2)); setLbl('leg-max',mx); // legenda dinâmica
-  renderHero(); buildMap(); initComparativo(); rebuildBar(); renderVarChart(); renderEvol(); renderVarGrid(); renderTable(); renderMaq();
+  const P=isPlantio();
+  _varColor={}; if(P)(ACTIVE.variedades||[]).forEach(x=>varColor(x.nome)); // fixa cores por área
+  const mx=scaleMax(); setLbl('leg-mid',Math.round(mx/2)); setLbl('leg-max',mx);
+  setLbl('h-mapa', P?'Mapa de Variedades':'Mapa de Produtividade');
+  setLbl('legTitle', P?'Variedade':'Produtividade · sc/ha');
+  setLbl('h-frota', P?'Plantadeiras':'Frota de Colheitadeiras');
+  P ? renderHeroPlantio() : renderHero();
+  buildMap();
+  if(!P){ initComparativo(); rebuildBar(); renderVarChart(); }
+  else { renderVarLegend(); }
+  renderEvol(); (P?renderVarGridPlantio():renderVarGrid()); renderTable(); renderMaq();
   renderOpTypeChips(); renderOperacoes();
   document.getElementById('ft-upd').textContent=new Date(SNAP.geradoEm).toLocaleString('pt-BR');
+  document.getElementById('nav-upd').textContent=SNAP.atualizado||'—';
   document.getElementById('ft-fonte').textContent=SNAP.fonte==='MOCK'?'Exemplo (MOCK)':'John Deere OPC';
   const b=document.getElementById('banner');
   if(SNAP.fonte==='MOCK'){b.style.display='block';b.innerHTML='⚙ DADOS DE EXEMPLO. Configure as credenciais da John Deere (.env, MOCK=false) para dados reais.';}
@@ -709,12 +863,13 @@ function renderAll(){
 
 // ---- normalização + seletor de ano/cultura ----
 function normalizeSnap(){
-  if(SNAP.anos && SNAP.anos.length){
-    ANOS=SNAP.anos;
+  const cs=curSnap();
+  if(cs && cs.anos && cs.anos.length){
+    ANOS=cs.anos;
     if(!activeYear || !ANOS.find(a=>a.ano===activeYear)) activeYear=ANOS[0].ano;
     const yr=curYear();
     if(!activeCrop || !yr.culturas.find(c=>c.key===activeCrop)) activeCrop=yr.culturas[0]?.key;
-  }else if(SNAP.resumo){ // mock (estrutura flat antiga)
+  }else if(!isPlantio() && SNAP.resumo){ // mock (estrutura flat antiga)
     ANOS=[{ano:'—',culturas:[{key:'_',label:SNAP.cultura||'Colheita'}]}]; activeYear='—'; activeCrop='_';
     SNAP.datasets={_:{resumo:SNAP.resumo,talhoes:SNAP.talhoes,evolucao:SNAP.evolucao,maquinas:SNAP.maquinas}};
     SNAP.operacoes=SNAP.operacoes||[];
@@ -743,7 +898,8 @@ function setCrop(key){ if(key===activeCrop) return; activeCrop=key;
   document.querySelectorAll('#cropChips .crop-chip').forEach(c=>c.classList.toggle('on',c.dataset.crop===key));
   applyActive(true); }
 function applyActive(cropChanged){
-  ACTIVE=(SNAP.datasets&&SNAP.datasets[activeCrop])||null;
+  const cs=curSnap();
+  ACTIVE=(cs&&cs.datasets&&cs.datasets[activeCrop])||null;
   if(!ACTIVE||!ACTIVE.resumo) ACTIVE={resumo:{fazendas:[],variedades:[]},talhoes:[],evolucao:[],maquinas:[]};
   byName={}; (ACTIVE.talhoes||[]).forEach(t=>{byName[t.talhao]=t;byName[normName(t.talhao)]=t;});
   if(cropChanged) cmpReady=false; // recomputa filtros/sliders p/ nova cultura
@@ -764,9 +920,12 @@ async function carregar(forcar){
     MAQNAMES=await fetch('/api/machine-names?t='+Date.now()).then(r=>r.json()).catch(()=>({}));
     if(!document.getElementById('brandLogo').src){
       const logo=await fetch('/api/logo').then(r=>r.text()).catch(()=>'');
-      if(logo&&logo.startsWith('data:')){const el=document.getElementById('brandLogo');el.src=logo;el.style.visibility='visible';}}
+      if(logo&&logo.startsWith('data:')){for(const id of ['brandLogo','navLogo']){const el=document.getElementById(id);if(el){el.src=logo;el.style.visibility='visible';}}}}
     if(forcar){try{await fetch('/api/poll-now');}catch(e){}}
     SNAP=await fetch('/api/snapshot?t='+Date.now()).then(r=>r.json());
+    // barra lateral só aparece quando há relatório de plantio nos dados
+    const temPlantio=SNAP.plantio&&SNAP.plantio.anos&&SNAP.plantio.anos.length;
+    document.getElementById('nav-plantio').disabled=!temPlantio;
     normalizeSnap(); renderSelectors(); applyActive(false);
   }catch(e){console.error(e);const b=document.getElementById('banner');b.style.display='block';b.textContent='⏳ Aguardando dados do servidor...';}
 }
@@ -784,6 +943,7 @@ async function atualizarAgora(){
     setTimeout(()=>{tx.textContent='Atualizar agora';},2500);
   }
 }
+document.body.classList.add('hasnav'); document.body.dataset.rel='colheita';
 setupChips('statusChips','status'); reveal();
 carregar();
 setInterval(()=>carregar(false),REFRESH_MS);
