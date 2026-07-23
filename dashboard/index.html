@@ -264,8 +264,8 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
     </div>
   </div>
   <div class="kicker">Gaps Agronegócios · Filial Bakaba · Tocantins</div>
-  <h1>Colheita de <em id="cropTitle">—</em> <span id="yearTitle" style="color:var(--ink-dim);font-weight:400"></span></h1>
-  <p class="sub">Painel alimentado pelo John Deere Operations Center: produtividade por talhão nas unidades BKB, NSA e SGD, por ano e cultura.</p>
+  <h1><span id="reportWord">Colheita</span> de <em id="cropTitle">—</em> <span id="yearTitle" style="color:var(--ink-dim);font-weight:400"></span></h1>
+  <p class="sub" id="heroSub">Painel alimentado pelo John Deere Operations Center: produtividade por talhão nas unidades BKB, NSA e SGD, por ano e cultura.</p>
   <div class="sel-row"><span class="sel-lbl">Ano</span><div class="crop-select" id="yearChips"></div></div>
   <div class="sel-row"><span class="sel-lbl">Cultura</span><div class="crop-select" id="cropChips"></div></div>
   <div class="hero-meta" id="heroMeta">
@@ -455,6 +455,8 @@ footer{padding:44px 0 60px;color:var(--ink-dim);font-size:12px;font-family:'JetB
 const fmt=(n,d=1)=>(n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}));
 const fmt0=n=>(n==null?'—':Number(n).toLocaleString('pt-BR',{maximumFractionDigits:0}));
 const yAnt=y=>(y&&y!=='—')?String(Number(y)-1):'anterior';
+// safra 2026 -> "Safra 25/26" (plantado num ano, colhido no seguinte)
+const safraLabel=y=>(y&&y!=='—')?('Safra '+String(Number(y)-1).slice(-2)+'/'+String(y).slice(-2)):'';
 const REFRESH_MS=60000;
 let SNAP=null, GEO=null, byName={}, barChart=null, varChart=null, evolChart=null;
 let ACTIVE={resumo:{},talhoes:[],evolucao:[],maquinas:[]}, activeCrop=null, ANOS=[], activeYear=null, MAQNAMES={};
@@ -568,6 +570,8 @@ function setLbl(id,txt){const e=document.getElementById(id);if(e)e.textContent=t
 function renderHero(){const r=ACTIVE.resumo;
   // restaura os KPIs/hero-meta da colheita (o plantio pode tê-los reescrito)
   if(!document.getElementById('k-prod')){document.getElementById('kpiRow').innerHTML=KPI_ROW_HTML;document.getElementById('heroMeta').innerHTML=HERO_META_HTML;}
+  setLbl('reportWord','Colheita');
+  setLbl('heroSub','Painel alimentado pelo John Deere Operations Center: produtividade por talhão nas unidades BKB, NSA e SGD, por ano e cultura.');
   document.getElementById('cropTitle').textContent=cropLbl();
   setLbl('yearTitle', activeYear&&activeYear!=='—'?activeYear:'');
   setLbl('hm-faz',(r.fazendas||[]).length);
@@ -812,8 +816,10 @@ function varColor(nome){ if(!nome||nome==='—') return '#243018';
 
 // ── HERO do plantio (reescreve hero-meta + KPIs) ──
 function renderHeroPlantio(){const r=ACTIVE.resumo;
+  setLbl('reportWord','Plantio');
+  setLbl('heroSub','Semeadura pelo John Deere Operations Center: variedade, área e população (realizada vs alvo) por talhão. Agrupado por safra.');
   document.getElementById('cropTitle').textContent=cropLbl();
-  setLbl('yearTitle', activeYear&&activeYear!=='—'?activeYear:'');
+  setLbl('yearTitle', safraLabel(activeYear));
   const dv=(r.desvioPct!=null)?((r.desvioPct>=0?'+':'')+fmt(r.desvioPct)+'%'):'—';
   document.getElementById('heroMeta').innerHTML=
     `<div>FAZENDAS <b>${(r.fazendas||[]).length}</b></div>`+
